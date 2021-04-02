@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Click_Move : MonoBehaviour
-{
-    public float Speed;//이동 속도
 
+public class Player : Player_Base
+{
+    enum STATE { Idle, Move, GetItem, Attack, Gathering };//대기, 이동, 아이템획득, 공격, 채집
+
+    private int State = 0;
+    private RaycastHit hit;
 
     //필요한 컴포넌트
-    private Camera camera;
     private NavMeshAgent agent;
     private Animator animator;
 
-
     private void Awake()
     {
-        camera = Camera.main;
         agent = gameObject.GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
 
@@ -25,38 +25,57 @@ public class Click_Move : MonoBehaviour
 
     private void Update()
     {
-        ClickCheck();
+        switch(State)
+        {
+            case (int)STATE.Idle:
+                break;
+            case (int)STATE.Move:
+                break;
+            case (int)STATE.GetItem:
+                GetItem();
+                break;
+            case (int)STATE.Attack:
+                break;
+            case (int)STATE.Gathering:
+                break;
+
+        }
         Look_SetPoint();
         EndMoveCheck();
     }
 
-    //클릭했는지 확인하기
-    void ClickCheck()
+    public void GetItem_start(RaycastHit _hit)
     {
-        if (Input.GetMouseButton(1))
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
-            {
-                ClickMove(hit);
-
-            }
-        }
+        hit = _hit;
+        State = (int)STATE.GetItem;
+        
     }
-
-    //클릭한 위치로 이동하기
-    void ClickMove(RaycastHit hit)
+    void GetItem()
     {
-        if (Vector3.Distance(transform.position, hit.point) > 0.2f)
+        if (Vector3.Distance(transform.position, hit.transform.position) <= Get_Item_Range)
         {
+            //아이템 획득
+            Debug.Log("아이템 획득");
+            ResetMove();
+            State = (int)STATE.Idle;
+        }
+        else
+        {
+            //이동
             agent.SetDestination(hit.point);
         }
     }
+    //이동
+    public void Move(RaycastHit _hit)
+    {
+        if (Vector3.Distance(transform.position, _hit.point) > 0.2f)
+        {
+            agent.SetDestination(_hit.point);
+        }
+    }
 
 
-
-
-    //이동 위치 바라보기
+    //이동방향 바라보기
     void Look_SetPoint()
     {
         if (agent.hasPath)
@@ -71,7 +90,6 @@ public class Click_Move : MonoBehaviour
             animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, targetangle, Time.deltaTime * 8.0f);
         }
     }
-
     //이동이 끝났는지 체크
     void EndMoveCheck()
     {
@@ -87,4 +105,9 @@ public class Click_Move : MonoBehaviour
         agent.velocity = Vector3.zero;
 
     }
+    void ChangeState(int _state)
+    {
+        State = _state;
+    }
+
 }

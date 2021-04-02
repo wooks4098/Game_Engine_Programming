@@ -21,7 +21,7 @@ public class Item : ScriptableObject
     {
         Material,       //재료
         Expendables,    //소모품
-        install,        //설치
-
+        Install,        //설치
+        Tool,           //도구
     }
 }
