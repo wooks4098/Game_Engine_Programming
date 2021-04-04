@@ -13,7 +13,8 @@ public class Player : Player_Base
     //필요한 컴포넌트
     private NavMeshAgent agent;
     private Animator animator;
-
+    [SerializeField]
+    private ItemPiekUp itempickup;
     private void Awake()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
@@ -50,12 +51,14 @@ public class Player : Player_Base
         State = (int)STATE.GetItem;
         
     }
+
     void GetItem()
     {
         if (Vector3.Distance(transform.position, hit.transform.position) <= Get_Item_Range)
         {
             //아이템 획득
             Debug.Log("아이템 획득");
+            itempickup.Get_Item();
             ResetMove();
             State = (int)STATE.Idle;
         }

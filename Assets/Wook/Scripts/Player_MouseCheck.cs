@@ -33,25 +33,24 @@ public class Player_MouseCheck : Player_Base
     {
         if (Input.GetMouseButton(1))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
+            if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
-                if (hit.transform.tag == "Item")
+                if (hitInfo.transform.tag == "Item")
                 {
-                    player.GetItem_start(hit);
+                    player.GetItem_start(hitInfo);
                 }
-                else if (hit.transform.tag == "채집")
+                else if (hitInfo.transform.tag == "채집")
                 {
 
                 }
-                else if (hit.transform.tag == "몬스터")
+                else if (hitInfo.transform.tag == "몬스터")
                 {
 
                 }
                 else
                 {
                     //이동
-                    player.Move(hit);
+                    player.Move(hitInfo);
                 }
 
             }
@@ -67,6 +66,8 @@ public class Player_MouseCheck : Player_Base
             if (hitInfo.transform != null && hitInfo.transform.tag == "Item")
             {
                 itemPickup.ItemInfoAppear(hitInfo);
+                if(Input.GetKeyDown(KeyCode.E))
+                    player.GetItem_start(hitInfo);
             }
             else
                 itemPickup.InfoDisappear();
