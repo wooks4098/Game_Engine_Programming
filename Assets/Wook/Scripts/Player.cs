@@ -68,6 +68,8 @@ public class Player : Player_Base
             agent.SetDestination(hit.point);
         }
     }
+
+
     //이동
     public void Move(RaycastHit _hit)
     {
