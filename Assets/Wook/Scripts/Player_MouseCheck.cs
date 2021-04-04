@@ -66,7 +66,7 @@ public class Player_MouseCheck : Player_Base
             if (hitInfo.transform != null && hitInfo.transform.tag == "Item")
             {
                 itemPickup.ItemInfoAppear(hitInfo);
-                if(Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E))
                     player.GetItem_start(hitInfo);
             }
             else

@@ -28,7 +28,7 @@ public class ItemPiekUp : MonoBehaviour
         if (hitInfo.transform != null)
         {
             inventory.AcquireItem(hitInfo.transform.GetComponent<ItemInfo>().item);
-            transform.gameObject.SetActive(false);
+            hitInfo.transform.gameObject.SetActive(false);
             InfoDisappear();
         }
     }

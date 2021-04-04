@@ -71,6 +71,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
     void Etc_Acquire(Item _item, int _count)
     {
         //같은 아이템이 있다면 증가
