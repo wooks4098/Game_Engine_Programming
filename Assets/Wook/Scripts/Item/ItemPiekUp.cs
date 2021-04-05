@@ -23,12 +23,12 @@ public class ItemPiekUp : MonoBehaviour
     }
 
     //아이템 획득 시도
-    public void Get_Item()
+    public void Get_Item(RaycastHit _hitInfo)
     {
-        if (hitInfo.transform != null)
+        if (_hitInfo.transform != null)
         {
-            inventory.AcquireItem(hitInfo.transform.GetComponent<ItemInfo>().item);
-            hitInfo.transform.gameObject.SetActive(false);
+            inventory.AcquireItem(_hitInfo.transform.GetComponent<ItemInfo>().item);
+            _hitInfo.transform.gameObject.SetActive(false);
             InfoDisappear();
         }
     }

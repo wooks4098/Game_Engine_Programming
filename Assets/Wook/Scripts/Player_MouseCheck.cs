@@ -6,6 +6,7 @@ public class Player_MouseCheck : Player_Base
 {
 
     private RaycastHit hitInfo;     //충동체 정보저장
+    private RaycastHit Item_Info;     //아이템 충돌체 정보저장
 
     //아이템 레이어를 담을 레이어 변수
     [SerializeField]
@@ -37,7 +38,8 @@ public class Player_MouseCheck : Player_Base
             {
                 if (hitInfo.transform.tag == "Item")
                 {
-                    player.GetItem_start(hitInfo);
+                    Item_Info = hitInfo;
+                    player.GetItem_start(Item_Info);
                 }
                 else if (hitInfo.transform.tag == "채집")
                 {
@@ -52,7 +54,6 @@ public class Player_MouseCheck : Player_Base
                     //이동
                     player.Move(hitInfo);
                 }
-
             }
         }
     }
@@ -66,8 +67,9 @@ public class Player_MouseCheck : Player_Base
             if (hitInfo.transform != null && hitInfo.transform.tag == "Item")
             {
                 itemPickup.ItemInfoAppear(hitInfo);
-                if (Input.GetKeyDown(KeyCode.E))
-                    player.GetItem_start(hitInfo);
+                //E 획득
+                //if (Input.GetKeyDown(KeyCode.E))
+                //    player.GetItem_start(hitInfo);
             }
             else
                 itemPickup.InfoDisappear();

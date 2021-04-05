@@ -58,7 +58,7 @@ public class Player : Player_Base
         {
             //아이템 획득
             Debug.Log("아이템 획득");
-            itempickup.Get_Item();
+            itempickup.Get_Item(hit);
             ResetMove();
             State = (int)STATE.Idle;
         }
