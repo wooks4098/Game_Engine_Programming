@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aaeab68aecf7e243b865001459e90b9, type: 3}
-  m_Name: Axe
+  m_Name: CampFire
   m_EditorClassIdentifier: 
   isActive: 0
-  itemName: Axe
-  itemType: 3
+  itemName: "\uCEA0\uD504\uD30C\uC774\uC5B4"
+  itemType: 2
   weight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
-  itemSprite: {fileID: 21300000, guid: f8a3cf4d1c444ed40b4cef0ca1b8fbb1, type: 3}
-  itemPrefab: {fileID: 8027445485946611726, guid: 7811ff20b44e4fd4da1c31b469a62250,
-    type: 3}
+  itemSprite: {fileID: 21300000, guid: 4f92d2542aac78049b20d1b543bc4ab3, type: 3}
+  itemPrefab: {fileID: 0}
+  Explanation: "\uBD88\uC740\uBD99\uC5EC \uBAB8\uC744 \uB530\uB73B\uD558\uAC8C \uB9CC\uB4E4\uC5B4
+    \uC904 \uC218 \uC788\uC744\uAC83\uAC19\uB2E4. \uBD88\uC5D0 \uACE0\uAE30\uB97C
+    \uAD6C\uC6CC\uBA39\uC744 \uC218 \uB3C4 \uC788\uB2E4."

@@ -57,7 +57,6 @@ public class Player : Player_Base
         if (Vector3.Distance(transform.position, hit.transform.position) <= Get_Item_Range)
         {
             //아이템 획득
-            Debug.Log("아이템 획득");
             itempickup.Get_Item(hit);
             ResetMove();
             State = (int)STATE.Idle;

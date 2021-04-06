@@ -14,6 +14,8 @@ public class ItemPiekUp : MonoBehaviour
     //필요한 컴포넌트
     [SerializeField]
     private Text Item_Info_Text;
+    [SerializeField]
+    private GameObject Item_Full_Text;
     public GameObject Item_Info;
     [SerializeField]
     private Inventory inventory;
@@ -27,12 +29,26 @@ public class ItemPiekUp : MonoBehaviour
     {
         if (_hitInfo.transform != null)
         {
-            inventory.AcquireItem(_hitInfo.transform.GetComponent<ItemInfo>().item);
-            _hitInfo.transform.gameObject.SetActive(false);
-            InfoDisappear();
+            if(inventory.AcquireItem(_hitInfo.transform.GetComponent<ItemInfo>().item))
+            {
+                _hitInfo.transform.gameObject.SetActive(false);
+                InfoDisappear();
+            }
+            else
+            {
+                Debug.Log("인벤토리가 꽉찼습니다.");
+                StartCoroutine("Item_Full_Text_Show");
+            }
+
         }
     }
-
+    IEnumerator Item_Full_Text_Show()
+    {
+        Item_Full_Text.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        Item_Full_Text.SetActive(false);
+        yield break;
+    }
 
 
     //아이템 확인(마우스 커서를 올려 아이템 정보 확인용)

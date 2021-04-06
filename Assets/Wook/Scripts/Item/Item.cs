@@ -13,9 +13,9 @@ public class Item : ScriptableObject
     public float Negative_Effect;   //사용 부정적 효과
 
     public Sprite itemSprite;       //아이템 스프라이트
-    public GameObject itemPrefab;   //아이템 프리펩 (화면에 보여줄 오브젝트)
+    //public GameObject itemPrefab;   //아이템 프리펩 (화면에 보여줄 오브젝트)
 
-
+    public string Explanation;      //아이템 설명
 
     public enum ITEMTYPE
     {

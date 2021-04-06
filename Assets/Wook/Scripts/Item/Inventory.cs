@@ -10,12 +10,9 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private GameObject Inventory_base;
     [SerializeField]
-    private GameObject Tool_SlotsParent;
-    [SerializeField]
     private GameObject Etc_SlotsParent;
 
-    //슬롯들
-    private Slot[] Tool_slots;
+    //슬롯
     private Slot[] Etc_slots;
 
     private void Awake()
@@ -25,7 +22,6 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        Tool_slots = Tool_SlotsParent.GetComponentsInChildren<Slot>();
         Etc_slots = Etc_SlotsParent.GetComponentsInChildren<Slot>();
     }
 
@@ -50,29 +46,16 @@ public class Inventory : MonoBehaviour
     }
 
     //아이템 추가
-    public void AcquireItem(Item _item, int _count = 1)
+    public bool AcquireItem(Item _item, int _count = 1)
     {
-        if (Item.ITEMTYPE.Tool == _item.itemType)//장비인지 체크
-            Tool_Acquire(_item, _count);
-        else
-            Etc_Acquire(_item, _count);
-
-    
+        if (Item.ITEMTYPE.Tool != _item.itemType)//장비인지 체크
+            return Etc_Acquire(_item, _count);
+        return false;
     }
 
-    void Tool_Acquire(Item _item, int _count)
-    {
-        for (int i = 0; i < Tool_slots.Length; i++)
-        {
-            if (Tool_slots[i].item == null)
-            {
-                Tool_slots[i].AddItem(_item, _count);
-                return;
-            }
-        }
-    }
 
-    void Etc_Acquire(Item _item, int _count)
+
+    bool Etc_Acquire(Item _item, int _count)
     {
         //같은 아이템이 있다면 증가
         for (int i = 0; i < Etc_slots.Length; i++)
@@ -82,7 +65,7 @@ public class Inventory : MonoBehaviour
                 if (Etc_slots[i].item.itemName == _item.itemName)
                 {
                     Etc_slots[i].SetSlotCount(_count);
-                    return;
+                    return true;
                 }
             }
 
@@ -94,9 +77,10 @@ public class Inventory : MonoBehaviour
             if (Etc_slots[i].item == null)
             {
                 Etc_slots[i].AddItem(_item, _count);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     void OpenInventory()
@@ -109,5 +93,11 @@ public class Inventory : MonoBehaviour
         Inventory_base.SetActive(false);
 
     }
+    public void CloseInventory_button()
+    {
+        inventoryActivated = false;
 
+        Inventory_base.SetActive(false);
+
+    }
 }
