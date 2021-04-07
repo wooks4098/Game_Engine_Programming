@@ -26,6 +26,8 @@ public class Player_MouseCheck : Player_Base
 
     private void Update()
     {
+        if (Inventory.inventoryActivated)
+            return; 
         ClickCheck();
         Check_Item();
     }
