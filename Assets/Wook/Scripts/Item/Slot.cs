@@ -121,13 +121,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler,IBeginDragHandler,IDragH
 
     public void OnDrop(PointerEventData eventData)
     {
-        //throw new System.NotImplementedException();
-        Debug.Log("OnDrop호출");
-        ChangeSlot();
-        //if (DragSlot.instance.dragSlot != null)
-        //{
-        //    ChangeSlot();
-        //}
+        if (DragSlot.instance.dragSlot != null)
+        {
+            ChangeSlot();
+        }
     }
     void ChangeSlot()
     {
