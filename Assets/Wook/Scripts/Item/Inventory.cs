@@ -11,7 +11,10 @@ public class Inventory : MonoBehaviour
     private GameObject Inventory_base;
     [SerializeField]
     private GameObject Etc_SlotsParent;
-
+    [SerializeField]
+    private GameObject inventory_RightClick;
+    [SerializeField]
+    private GameObject inventory_LeftClick;
     //슬롯
     private Slot[] Etc_slots;
 
@@ -86,6 +89,9 @@ public class Inventory : MonoBehaviour
     void OpenInventory()
     {
         Inventory_base.SetActive(true);
+        inventory_LeftClick.SetActive(false);
+        inventory_RightClick.SetActive(false);
+
     }
 
     void CloseInventory()

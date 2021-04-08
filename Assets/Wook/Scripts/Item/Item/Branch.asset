@@ -15,11 +15,10 @@ MonoBehaviour:
   isActive: 0
   itemName: "\uB098\uBB47\uAC00\uC9C0"
   itemType: 0
-  weight: 0
+  itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
   itemSprite: {fileID: 21300000, guid: f895622fc1bd890479242614d8622a41, type: 3}
-  itemPrefab: {fileID: 0}
-  Explanation: "\uB098\uBB34\uC5D0 \uBD99\uC5B4\uC788\uB358 \uC794 \uB098\uBB34\uAC00\uC9C0\uB2E4.
-    \uBD88\uC5D0 \uC798 \uD0C0\uACE0, \uBC14\uB2E5\uC5D0 \uAE54\uBA74 \uBCF4\uC628\uC7AC\uB85C
-    \uC0AC\uC6A9\uD560 \uC218 \uC788\uC744\uAC83 \uAC19\uB2E4."
+  itemInfo: "\uB098\uBB34\uC5D0 \uBD99\uC5B4\uC788\uB358 \uC794 \uB098\uBB34\uAC00\uC9C0\uB2E4.
+    \n\uBD88\uC5D0 \uC798 \uD0C0\uACE0, \uBC14\uB2E5\uC5D0 \uAE54\uBA74 \uBCF4\uC628\uC7AC\uB85C
+    \uC0AC\uC6A9\uD560 \uC218 \uC788\uC744\uAC83 \uAC19\uB2E4.\r\n"
