@@ -21,7 +21,8 @@ public class ItemPiekUp : MonoBehaviour
     private Inventory inventory;
     private void Update()
     {
-
+        if (Inventory.inventoryActivated)
+            InfoDisappear();//인벤토리 켜졌을 때 아이템 정보 보여주던거 숨기기
     }
 
     //아이템 획득 시도
