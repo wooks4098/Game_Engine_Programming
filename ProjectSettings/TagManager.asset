@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
+  - EnemyLookPoint
+  - Enemy
+  - RunawayPoint
   layers:
   - Default
   - TransparentFX

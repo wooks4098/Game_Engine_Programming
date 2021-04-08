@@ -29,28 +29,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.75, z: 0}
---- !u!114 &6175140117453200670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6008673437886070759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cfa607ccfcaa104ebe237f135bd5205, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDead: 0
-  startingHealth: 70
-  health: 70
-  damage: 10
-  state: 0
-  player: {fileID: 0}
-  EnemyLookPoint: {fileID: 0}
-  target: {fileID: 0}
-  delay: 3
-  isDamaged: 0
 --- !u!195 &6175140117453200669
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -73,6 +51,29 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6175140117453200670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6008673437886070759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cfa607ccfcaa104ebe237f135bd5205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDead: 0
+  startingHealth: 70
+  health: 0
+  damage: 10
+  enemyType: 0
+  enemyState: 0
+  playerState: {fileID: 0}
+  EnemyLookPoint: {fileID: 0}
+  target: {fileID: 0}
+  delay: 3
+  isDamaged: 0
 --- !u!1001 &7254875722913031633
 PrefabInstance:
   m_ObjectHideFlags: 0

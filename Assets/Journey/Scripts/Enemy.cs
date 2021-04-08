@@ -3,17 +3,18 @@ using UnityEngine.AI;
 
 public class Enemy : Creature
 {
-    //public enum TYPE { WOLF, CHICKEN, SHEEP }; //몬스터 타입
-    //public TYPE enemyType;
+    public enum TYPE { WOLF, CHICKEN, SHEEP }; //몬스터 타입
+    public TYPE enemyType;
 
     public enum STATE { IDLE, FOLLOW, ATTACK, RUNAWAY, DIE }; //몬스터 상태
-    public STATE state;
+    public STATE enemyState;
 
     public PlayerState playerState;
     public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점
     public Transform target; //추적할 대상
     private NavMeshAgent nav; //네비 에이전트
     private Animator ani;
+    public Transform RunawayPoint;
 
     public float delay = 3f; //공격 딜레이
     private float lastAttack; //마지막 공격 시점
@@ -38,42 +39,37 @@ public class Enemy : Creature
     }
 
     //public void SetStatus()
-    
-    private void Start()
-    {
-    }
 
     void Update()
     {
-        nav.SetDestination(target.position);
+        RunawayPoint.position = (transform.position - target.position) * 2;
         UpdateState();
     }
-    
+
+    //상태 업데이트
     public void UpdateState()
     {
-        switch (state)
+        switch (enemyState)
         {
             case STATE.IDLE:
+                nav.SetDestination(target.position);
                 nav.isStopped = true;
                 ani.SetBool("isFollow", false);
-
-                if (isAttackArea())
-                    state = STATE.ATTACK;
-                else if (isFollowArea())
-                    state = STATE.FOLLOW;
+                StateChange();
                 break;
 
             case STATE.FOLLOW:
+                nav.SetDestination(target.position);
                 nav.isStopped = false;
                 ani.SetBool("isFollow", true);
-
-                if (isAttackArea())
-                    state = STATE.ATTACK;
-                if (!isFollowArea())
-                    state = STATE.IDLE;
+                StateChange();
                 break;
 
             case STATE.ATTACK:
+                nav.SetDestination(target.position);
+                if (playerState.isDead)
+                    enemyState = STATE.IDLE;
+
                 transform.LookAt(EnemyLookPoint);
                 ani.SetBool("isFollow", false);
                 if (Time.time >= lastAttack + delay) //공격 딜레이가 지났다면
@@ -82,16 +78,14 @@ public class Enemy : Creature
                     ani.SetTrigger("Attack");
                     lastAttack = Time.time;
                 }
-
-                if (!isFollowArea())
-                    state = STATE.IDLE;
-                else if (!isAttackArea())
-                    state = STATE.FOLLOW;
+                StateChange();
                 break;
 
             case STATE.RUNAWAY: //고치기
-                //Vector3 dir = (nav.transform.position - transform.position);
-                //nav.SetDestination(dir);
+                ani.SetBool("isFollow", true);
+                nav.ResetPath();
+                nav.SetDestination(RunawayPoint.position);
+                StateChange();
                 break;
             case STATE.DIE: //고치기
                 if (!isDead)
@@ -100,52 +94,82 @@ public class Enemy : Creature
         }
     }
 
-    /*
-    //몬스터 종류 체크
-    void CheckType()
+    //상태 바꾸기
+    void StateChange()
     {
         switch(enemyType)
         {
             case TYPE.WOLF:
-                Wolf_CheckState();
+                switch (enemyState)
+                {
+                    case STATE.IDLE:
+                        if (isAttackArea())
+                            enemyState = STATE.ATTACK;
+                        else if (isFollowArea())
+                            enemyState = STATE.FOLLOW;
+                        break;
+                    case STATE.FOLLOW:
+                        if (isAttackArea())
+                            enemyState = STATE.ATTACK;
+                        if (!isFollowArea())
+                            enemyState = STATE.IDLE;
+                        break;
+                    case STATE.ATTACK:
+                        if (!isFollowArea())
+                            enemyState = STATE.IDLE;
+                        else if (!isAttackArea())
+                            enemyState = STATE.FOLLOW;
+                        break;
+                    case STATE.DIE:
+                        break;
+                }
                 break;
             case TYPE.CHICKEN:
-                Chicken_CheckState();
+                switch(enemyState)
+                {
+                    case STATE.IDLE:
+                        if (isDamaged && isAttackArea()) //공격 받았고 공격 범위에 있을 경우
+                            enemyState = STATE.ATTACK;
+                        else if (isDamaged && isFollowArea()) //공격 받았고 추적 범위에 있을 경우
+                            enemyState = STATE.FOLLOW;
+                        isDamaged = false;//고치기
+                        break;
+                    case STATE.FOLLOW:
+                        if (isAttackArea())
+                            enemyState = STATE.ATTACK;
+                        else if(!isFollowArea())
+                            enemyState = STATE.IDLE;
+                        break;
+                    case STATE.ATTACK:
+                        if (!isAttackArea() && !isFollowArea())
+                            enemyState = STATE.IDLE;
+                        else if (!isAttackArea() && isFollowArea()) 
+                            enemyState = STATE.FOLLOW;
+                        break;
+                    case STATE.DIE:
+                        break;
+                }
                 break;
             case TYPE.SHEEP:
-                Sheep_SheckState();
+                switch (enemyState)
+                {
+                    case STATE.IDLE:
+                        if (isDamaged && isFollowArea()) //공격 받았고 공격 범위에 있을 경우
+                            enemyState = STATE.RUNAWAY;
+                        isDamaged = false;
+                        break;
+                    case STATE.RUNAWAY:
+                        if (!isFollowArea()) 
+                            enemyState = STATE.IDLE;
+                        break;
+                    case STATE.DIE:
+                        break;
+                }
                 break;
         }
     }
 
-    void Chicken_CheckState()
-    {
-        if (isDamaged && nav.remainingDistance <= nav.stoppingDistance)
-            enemyState = STATE.ATTACK;
-        else if (isDamaged && nav.remainingDistance <= nav.stoppingDistance * 3) //공격 받았고 공격 범위에 있을 경우
-            enemyState = STATE.FOLLOW;
-        else
-        {
-            isDamaged = false;
-            enemyState = STATE.IDLE;
-        }
 
-    }
-
-    void Sheep_SheckState()
-    {
-        if (isDamaged && nav.remainingDistance <= nav.stoppingDistance * 3) //공격 받았고 공격 범위에 있을 경우
-            enemyState = STATE.RUNAWAY;
-        else
-        {
-            isDamaged = false;
-            enemyState = STATE.IDLE;
-        }
-
-    }
-    */
-
-    
     //공격 범위에 들어왔는지
     bool isAttackArea()
     {
@@ -170,7 +194,7 @@ public class Enemy : Creature
         isDamaged = true; //고치기
 
         if (health <= 0)
-            state = STATE.DIE;
+            enemyState = STATE.DIE;
     }
 
     public override void Die()

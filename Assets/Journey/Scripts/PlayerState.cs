@@ -22,14 +22,14 @@ public class PlayerState : Creature
     public override void Die()
     {
         isDead = true;
-        transform.rotation = Quaternion.Euler(new Vector3(45, 0, 0));
+        Debug.Log("플레이어 사망");
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("마우스 클릭");
+            Debug.Log("적 공격");
             enemy.OnDamage(damage); //실험하느라 여기 넣어둠(수정해야함)
         }
     }
