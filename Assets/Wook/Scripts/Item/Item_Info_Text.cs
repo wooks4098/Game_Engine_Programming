@@ -15,6 +15,10 @@ public class Item_Info_Text : MonoBehaviour
 
     private void OnEnable()
     {
+       // Base.color = new Vector4(1, 1, 1, 1);
+
+        //Type.GetComponent<RectTransform>().anchoredPosition = new Vector2(Name.GetComponent<RectTransform>().anchoredPosition.x + Name.GetComponent<RectTransform>().rect.width + 10
+        //                 , Name.GetComponent<RectTransform>().anchoredPosition.y - 5);
         StartCoroutine("TextPosSet");
     }
     private void OnDisable()
@@ -28,6 +32,7 @@ public class Item_Info_Text : MonoBehaviour
     }
     IEnumerator TextPosSet()
     {
+        yield return null;
         yield return null;
         Base.color = new Vector4(1, 1, 1, 1);
 
