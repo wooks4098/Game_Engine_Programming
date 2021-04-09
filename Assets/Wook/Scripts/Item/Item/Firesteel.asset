@@ -15,10 +15,9 @@ MonoBehaviour:
   isActive: 0
   itemName: "\uBD80\uC2EF\uB3CC"
   itemType: 0
-  weight: 0
+  itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
   itemSprite: {fileID: 21300000, guid: 0743fb3e895768747b8790e4a96d54ab, type: 3}
-  itemPrefab: {fileID: 0}
-  Explanation: "\uB9C8\uCC30\uC774 \uC77C\uC5B4\uB098\uBA74 \uBD88\uB625\uC774 \uD280\uB294
-    \uB3CC\uC774\uB2E4"
+  itemInfo: "\uB9C8\uCC30\uC774 \uC77C\uC5B4\uB098\uBA74 \uBD88\uB625\uC774 \uD280\uB294
+    \uB3CC\uC774\uB2E4\r"

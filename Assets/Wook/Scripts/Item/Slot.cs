@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDragHandler,IDropHandler
+public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDragHandler,IDropHandler
 {
     public Item item; //획득한 아이템
     public int itemCount; //획득한 아이템의 개수
     public Image itemImage; //아이템의 이미지
+
+    private bool isDragging = false;//이미지 드래그 중인지
 
     private Vector3 orginPos;
 
@@ -17,10 +19,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler,IBeginDragHandler,IDragH
     private Text text_Count;
     [SerializeField]
     private GameObject text_Count_obj;
+    private Inventory_RightClick inventory_RightClick;
+    private Inventory_LeftClick inventory_LefttClick;
 
     private void Start()
     {
         orginPos = transform.position;
+        inventory_RightClick = FindObjectOfType<Inventory_RightClick>();
+        inventory_LefttClick = FindObjectOfType<Inventory_LeftClick>();
     }
 
 
@@ -81,7 +87,9 @@ public class Slot : MonoBehaviour, IPointerClickHandler,IBeginDragHandler,IDragH
         {
             if(item!= null)
             {
-                //팝업 뜨게
+                inventory_LefttClick.Hide();
+                inventory_RightClick.Show(item, this.transform.position);
+
             }
         }
 
@@ -90,41 +98,56 @@ public class Slot : MonoBehaviour, IPointerClickHandler,IBeginDragHandler,IDragH
     public void OnBeginDrag(PointerEventData eventData)
     {
         //throw new System.NotImplementedException();
-        if(item != null)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            DragSlot.instance.dragSlot = this;
-            DragSlot.instance.DragSetImage(itemImage);
+            if (item != null)
+            {
+                if (Inventory_RightClick.Inventory_RightClick_Activated == false)
+                {
+                    inventory_RightClick.Hide();
+                    isDragging = true;
+                    DragSlot.instance.dragSlot = this;
+                    DragSlot.instance.DragSetImage(itemImage);
 
-            DragSlot.instance.transform.position = eventData.position;
+                    DragSlot.instance.transform.position = eventData.position;
+                }
+                    
+            }
         }
+         
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // throw new System.NotImplementedException();
-        if (item != null)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            DragSlot.instance.transform.position = eventData.position;
+            if (item != null)
+            {
+                DragSlot.instance.transform.position = eventData.position;
+            }
         }
+        
 
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrop호출");
-
-        // throw new System.NotImplementedException();
-        DragSlot.instance.dragSlot = null;
-        DragSlot.instance.SetColor(0);
-        //transform.position = orginPos;
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            DragSlot.instance.dragSlot = null;
+            DragSlot.instance.SetColor(0);
+        }     
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (DragSlot.instance.dragSlot != null)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            ChangeSlot();
-        }
+            if (DragSlot.instance.dragSlot != null)
+            {
+                ChangeSlot();
+            }
+        }          
     }
     void ChangeSlot()
     {
@@ -132,14 +155,28 @@ public class Slot : MonoBehaviour, IPointerClickHandler,IBeginDragHandler,IDragH
         int _tmpItemCount = itemCount;
         AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
         if(_tmpItem != null)
-        {
             DragSlot.instance.dragSlot.AddItem(_tmpItem, _tmpItemCount);
-        }
         else
-        {
             DragSlot.instance.dragSlot.ClearSlot();
+
+    }
+
+    //마우스가 슬롯에 들어가면 발동
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item != null)
+        {
+           if(Inventory_RightClick.Inventory_RightClick_Activated == false)
+            {
+                inventory_LefttClick.Show(item, itemCount, transform.position);
+            }
+
         }
     }
 
-
+    //마우스가 슬록에서 나가면 발동
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        inventory_LefttClick.Hide();
+    }
 }
