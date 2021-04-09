@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : Creature
+public class PlayerStatus : Creature
 {
     public Enemy enemy;
 
