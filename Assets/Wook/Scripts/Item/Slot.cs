@@ -44,7 +44,6 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPoi
         item = _item;
         itemCount = _Count;
         itemImage.sprite = item.itemSprite;
-
         if (item.itemType != Item.ITEMTYPE.Tool)
         {
             text_Count_obj.SetActive(true);

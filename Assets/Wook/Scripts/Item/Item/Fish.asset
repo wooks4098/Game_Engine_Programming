@@ -10,19 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aaeab68aecf7e243b865001459e90b9, type: 3}
-  m_Name: Cooked_meat
+  m_Name: Fish
   m_EditorClassIdentifier: 
   isActive: 0
-  itemName: "\uAD6C\uC6B4\uACE0\uAE30"
-  itemType: 1
+  itemName: "\uBB3C\uACE0\uAE30"
+  itemType: 0
   itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
-  Crafting_ItemName:
-  - "\uB291\uB300 \uACE0\uAE30"
-  Crafting_Count: 01000000
-  Crafting_Sprite:
-  - {fileID: 21300000, guid: 8e3098d88535ed84fa82b0e3eedab240, type: 3}
-  itemSprite: {fileID: 21300000, guid: b9d07539073d9e0499b99c9e6017cc17, type: 3}
-  itemInfo: "\uBD88\uC5D0 \uAD6C\uC6B4 \uACE0\uAE30\uB2E4. \n\uAF64 \uB9DB\uC788\uC744\uAC83
-    \uAC19\uB2E4.\r\n"
+  Crafting_ItemName: []
+  Crafting_Count: 
+  Crafting_Sprite: []
+  itemSprite: {fileID: 0}
+  itemInfo: 

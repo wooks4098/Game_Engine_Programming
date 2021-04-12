@@ -18,6 +18,15 @@ MonoBehaviour:
   itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
+  Crafting_ItemName:
+  - "\uB3CC"
+  - "\uB098\uBB47\uAC00\uC9C0"
+  - "\uBD80\uC2EF\uB3CC"
+  Crafting_Count: 050000000800000001000000
+  Crafting_Sprite:
+  - {fileID: 21300000, guid: b7db16a6b36451845b244bf4b1de2f73, type: 3}
+  - {fileID: 21300000, guid: f895622fc1bd890479242614d8622a41, type: 3}
+  - {fileID: 0}
   itemSprite: {fileID: 21300000, guid: 4f92d2542aac78049b20d1b543bc4ab3, type: 3}
   itemInfo: "\uBD88\uC740\uBD99\uC5EC \uBAB8\uC744 \uB530\uB73B\uD558\uAC8C \uB9CC\uB4E4\uC5B4
     \uC904 \uC218 \uC788\uC744\uAC83\uAC19\uB2E4. \n\uBD88\uC5D0 \uACE0\uAE30\uB97C
