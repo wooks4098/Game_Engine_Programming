@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyAttack : IEnemyState
 {
+    //이 상태는 늑대와 닭만 사용
+
     private Enemy parent;
 
     public void Enter(Enemy parent)
@@ -21,14 +23,13 @@ public class EnemyAttack : IEnemyState
 
         if (Time.time >= parent.lastAttack + parent.delay) //공격 딜레이가 지났다면
         {
-            //playerState.OnDamage(damage);
+            parent.player.OnDamage(parent.player.Fight(parent.player.evasion, parent.player.defense));
+            Debug.Log("적이 플레이어를 공격");
             parent.lastAttack = Time.time;
             parent.ani.SetTrigger("Attack");
         }
 
-        if(!parent.isFollowArea() || parent.player.isDead)
-            parent.ChangeState(new EnemyIdle());
-        else if (!parent.isAttackArea())
+        if (!parent.isAttackArea() && parent.isFollowArea()) //공격 범위에 없고, 추적 범위에 있을 때
             parent.ChangeState(new EnemyFollow());
 
         //확인용

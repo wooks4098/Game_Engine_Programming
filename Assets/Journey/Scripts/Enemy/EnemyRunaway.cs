@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyRunaway : IEnemyState
 {
+    //이 상태는 양만 사용
+
     private Enemy parent;
 
     public void Enter(Enemy parent)
@@ -22,11 +24,18 @@ public class EnemyRunaway : IEnemyState
         parent.nav.ResetPath();
         parent.nav.SetDestination(parent.RunawayPoint.position);
 
+        if (Vector3.Distance(parent.transform.position, parent.target.position) > parent.nav.stoppingDistance * 3) //추적 범위에 없을 때
+        {
+            parent.isDamaged = false;
+            parent.ChangeState(new EnemyIdle());
+        }
+
         //확인용
         Debug.Log(parent.name + "의 Runaway Update");
     }
     public void Exit()
     {
+        parent.nav.ResetPath();
         parent.ani.SetBool("isRun", false);
 
         //확인용

@@ -307,6 +307,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99478419}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &139605863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
+    type: 3}
+  m_PrefabInstance: {fileID: 1630942753}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cfa607ccfcaa104ebe237f135bd5205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &155057848 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2443173393795779173, guid: 1640a2945d0dcdb4a8d853823e9df051,
@@ -541,7 +553,12 @@ MonoBehaviour:
   isDead: 0
   startingHealth: 100
   health: 0
-  damage: 0
+  damage: 10
+  defense: 0
+  evasion: 0
+  accuracy: 0
+  critical: 0
+  enemy: {fileID: 139605863}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,27 +836,27 @@ PrefabInstance:
         type: 3}
       propertyPath: EnemyLookPoint
       value: 
-      objectReference: {fileID: 2009974647}
+      objectReference: {fileID: 0}
     - target: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
         type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 430657528}
+      objectReference: {fileID: 0}
     - target: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
         type: 3}
       propertyPath: RunawayPoint
       value: 
-      objectReference: {fileID: 264947127}
+      objectReference: {fileID: 0}
     - target: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
         type: 3}
       propertyPath: nav
       value: 
-      objectReference: {fileID: 1630942754}
+      objectReference: {fileID: 0}
     - target: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
         type: 3}
       propertyPath: ani
       value: 
-      objectReference: {fileID: 1630942755}
+      objectReference: {fileID: 0}
     - target: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
         type: 3}
       propertyPath: m_Enabled
@@ -849,7 +866,12 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 430657529}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175140117453200670, guid: 297c73c01d83def4da2f1956b6080043,
+        type: 3}
+      propertyPath: playerGameObject
+      value: 
+      objectReference: {fileID: 430657523}
     - target: {fileID: 6352547196431656285, guid: 297c73c01d83def4da2f1956b6080043,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -907,18 +929,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 297c73c01d83def4da2f1956b6080043, type: 3}
---- !u!195 &1630942754 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 6175140117453200669, guid: 297c73c01d83def4da2f1956b6080043,
-    type: 3}
-  m_PrefabInstance: {fileID: 1630942753}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1630942755 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1065352894201184039, guid: 297c73c01d83def4da2f1956b6080043,
-    type: 3}
-  m_PrefabInstance: {fileID: 1630942753}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1667246232
 GameObject:
   m_ObjectHideFlags: 0

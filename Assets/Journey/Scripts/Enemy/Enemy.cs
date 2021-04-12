@@ -14,13 +14,17 @@ public class Enemy : MonoBehaviour, ICreature
     public Transform RunawayPoint; //도망칠 때의 목표지점
     public NavMeshAgent nav; //네비 에이전트
     public Animator ani;
-
+    
 
     //스테이터스
     public bool isDead; //생존 여부
     public float startingHealth = 100; //시작 체력
     public float health;//현재 체력
     public float damage; //데미지
+    public float defense; //방어력
+    public float evasion; //회피율
+    public float accuracy; //명중률
+    public float critical; //크리티컬 확률
 
     public float delay = 3f; //공격 딜레이
     public float lastAttack; //마지막 공격 시점
@@ -32,10 +36,13 @@ public class Enemy : MonoBehaviour, ICreature
     
     void Awake()
     {
-        nav = GetComponent<NavMeshAgent>();
-        ani = GetComponent<Animator>();
         ChangeState(new EnemyIdle());
         nav.SetDestination(target.position);
+    }
+    
+    void Start()
+    {
+
     }
 
     //스테이터스 초기화
@@ -43,9 +50,13 @@ public class Enemy : MonoBehaviour, ICreature
     {
         isDead = false;
         health = startingHealth;
+        damage = 50;
+        defense = 50;
+        evasion = 50;
+        evasion = 50;
+        accuracy = 50;
+        critical = 50;
     }
-
-    //public void SetStatus()
 
     void Update()
     {
@@ -61,6 +72,36 @@ public class Enemy : MonoBehaviour, ICreature
 
         currentState = nextState;
         currentState.Enter(this);
+    }
+
+    //받을 데미지 계산 (플레이어가 적을 공격할 때)
+    public float Fight(float _evasion, float _defense)
+    {
+        int rand = Random.Range(0, 101);
+
+        float _damage = 0f;
+
+        if (0 < accuracy - _evasion)
+        {
+            rand = Random.Range(0, 101);
+            if (0 < critical)
+            {
+                _damage = damage * 1.2f - _defense;
+                Debug.Log("플레이어가 적을 공격 - 1");
+            }
+            else
+            {
+                _damage = damage - _defense;
+                Debug.Log("플레이어가 적을 공격 - 2");
+            }
+        }
+        else
+        {
+            _damage = 0;
+            Debug.Log("플레이어가 적을 공격 - 3");
+        }
+
+        return _damage;
     }
 
     //추적할 대상이 존재하는지 알려주는 프로퍼티
@@ -106,6 +147,8 @@ public class Enemy : MonoBehaviour, ICreature
     //사망 처리
     public void Die()
     {
+        ani.SetTrigger("Die");
+        nav.isStopped = true;
         isDead = true;
         Destroy(gameObject, 5f);
     }

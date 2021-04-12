@@ -63,16 +63,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfa607ccfcaa104ebe237f135bd5205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  player: {fileID: 0}
+  EnemyLookPoint: {fileID: 0}
+  target: {fileID: 0}
+  RunawayPoint: {fileID: 0}
+  nav: {fileID: 6175140117453200669}
+  ani: {fileID: 1065352894201184039}
   isDead: 0
   startingHealth: 70
   health: 0
   damage: 10
-  enemyType: 0
-  enemyState: 0
-  playerState: {fileID: 0}
-  EnemyLookPoint: {fileID: 0}
-  target: {fileID: 0}
   delay: 3
+  lastAttack: 0
   isDamaged: 0
 --- !u!1001 &7254875722913031633
 PrefabInstance:
@@ -156,6 +159,12 @@ PrefabInstance:
 --- !u!1 &6008673437886070759 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4020983980232809014, guid: 9fedecbd1aa68924b816f15cb97e611a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7254875722913031633}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1065352894201184039 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7666986768240843510, guid: 9fedecbd1aa68924b816f15cb97e611a,
     type: 3}
   m_PrefabInstance: {fileID: 7254875722913031633}
   m_PrefabAsset: {fileID: 0}
