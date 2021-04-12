@@ -3125,7 +3125,7 @@ Transform:
   - {fileID: 2093145097}
   - {fileID: 1892991402}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1646621412
 NavMeshAgent:
@@ -4261,7 +4261,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2015407732
 GameObject:
@@ -4754,7 +4754,7 @@ GameObject:
   - component: {fileID: 2108486206}
   - component: {fileID: 2108486205}
   m_Layer: 5
-  m_Name: Inventory_Click_Base
+  m_Name: Inventory_Right_Click_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5075,7 +5075,7 @@ PrefabInstance:
     - target: {fileID: 3456612195607836907, guid: 22e00e9926a5974468e1fdc98a2d3995,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3456612195607836907, guid: 22e00e9926a5974468e1fdc98a2d3995,
         type: 3}
@@ -5139,7 +5139,7 @@ PrefabInstance:
     - target: {fileID: 7218398908313596596, guid: 7811ff20b44e4fd4da1c31b469a62250,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7218398908313596596, guid: 7811ff20b44e4fd4da1c31b469a62250,
         type: 3}

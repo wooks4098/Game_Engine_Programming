@@ -12,6 +12,13 @@ public class Item : ScriptableObject
     public float Posivive_Effect;   //사용 긍정적 효과
     public float Negative_Effect;   //사용 부정적 효과
 
+    public string[] Crafting_ItemName;
+    public int[] Crafting_Count;
+    public Sprite[] Crafting_Sprite;
+
+
+
+
     public Sprite itemSprite;       //아이템 스프라이트
     //public GameObject itemPrefab;   //아이템 프리펩 (화면에 보여줄 오브젝트)
 
