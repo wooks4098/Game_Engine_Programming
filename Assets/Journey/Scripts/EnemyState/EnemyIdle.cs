@@ -14,7 +14,6 @@ public class EnemyIdle : IEnemyState
 
         //확인용
         Debug.Log(parent.name + "의 Idle Enter");
-        parent.state = Enemy.STATE.IDLE;
     }
     public void Update()
     {
@@ -23,19 +22,21 @@ public class EnemyIdle : IEnemyState
         switch (parent.name)
         {
             case "Wolf":
-                if (parent.isFollowArea()) //추적 범위에 있을 때
+                //추적 범위에 있을 때
+                if (parent.isFollowArea())
                     parent.ChangeState(new EnemyFollow());
                 break;
             case "Chicken":
-                if (parent.isDamaged && parent.isFollowArea()) //플레이어에게 공격 당했고, 추적 범위에 있을 때
+                //플레이어에게 공격 당했고, 추적 범위에 있을 때
+                if (parent.isDamaged && parent.isFollowArea())
                     parent.ChangeState(new EnemyFollow());
                 break;
             case "Sheep":
-                if (parent.isDamaged && parent.isFollowArea()) //플레이어에게 공격 당했고, 추적 범위에 있을 때
+                //플레이어에게 공격 당했고, 추적 범위에 있을 때
+                if (parent.isDamaged && parent.isFollowArea())
                     parent.ChangeState(new EnemyRunaway());
                 break;
         }
-
         
 
         //확인용
@@ -48,15 +49,3 @@ public class EnemyIdle : IEnemyState
         Debug.Log(parent.name + "의 Idle Exit");
     }
 }
-
-/*
-switch (parent.name)
-{
-    case "Wolf":
-        break;
-    case "Chicken":
-        break;
-    case "Sheep":
-        break;
-}
-*/

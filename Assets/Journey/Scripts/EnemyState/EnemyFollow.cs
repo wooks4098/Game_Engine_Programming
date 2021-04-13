@@ -16,15 +16,17 @@ public class EnemyFollow : IEnemyState
 
         //확인용
         Debug.Log(parent.name + "의 Follow Enter");
-        parent.state = Enemy.STATE.FOLLOW;
     }
     public void Update()
     {
         parent.nav.SetDestination(parent.target.position);
 
-        if (parent.isAttackArea()) //공격 범위에 있을 때
+        //공격 범위에 있을 때
+        if (parent.isAttackArea())
             parent.ChangeState(new EnemyAttack());
-        else if (!parent.isFollowArea()) //공격 범위에 없고, 추적 범위에 없을 때
+
+        //공격 범위에 없고, 추적 범위에 없을 때
+        else if (!parent.isFollowArea()) 
         {
             parent.ChangeState(new EnemyIdle());
             parent.isDamaged = false;

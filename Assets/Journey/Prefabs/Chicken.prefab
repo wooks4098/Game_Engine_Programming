@@ -41,7 +41,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfa607ccfcaa104ebe237f135bd5205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
   player: {fileID: 0}
   EnemyLookPoint: {fileID: 0}
   target: {fileID: 0}
@@ -52,6 +51,10 @@ MonoBehaviour:
   startingHealth: 70
   health: 0
   damage: 10
+  defense: 0
+  evasion: 0
+  accuracy: 0
+  critical: 0
   delay: 3
   lastAttack: 0
   isDamaged: 0
@@ -97,7 +100,7 @@ PrefabInstance:
     - target: {fileID: 4020983980232809014, guid: 9fedecbd1aa68924b816f15cb97e611a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4361374554138886284, guid: 9fedecbd1aa68924b816f15cb97e611a,
         type: 3}

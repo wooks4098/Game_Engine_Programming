@@ -14,14 +14,14 @@ public class EnemyAttack : IEnemyState
 
         //확인용
         Debug.Log(parent.name + "의 Attack Enter");
-        parent.state = Enemy.STATE.ATTACK;
     }
     public void Update()
     {
         parent.nav.SetDestination(parent.target.position);
-        parent.transform.LookAt(parent.EnemyLookPoint); //플레이어를 바라보게
+        parent.transform.LookAt(parent.EnemyLookPoint);
 
-        if (Time.time >= parent.lastAttack + parent.delay) //공격 딜레이가 지났다면
+        //공격 딜레이가 지났다면
+        if (Time.time >= parent.lastAttack + parent.delay)
         {
             parent.player.OnDamage(parent.damage,parent.critical,parent.accuracy);
             Debug.Log("적이 플레이어를 공격");
@@ -30,7 +30,8 @@ public class EnemyAttack : IEnemyState
             parent.ani.SetTrigger("Attack");
         }
 
-        if (!parent.isAttackArea() && parent.isFollowArea()) //공격 범위에 없고, 추적 범위에 있을 때
+        //공격 범위에 없고, 추적 범위에 있을 때
+        if (!parent.isAttackArea() && parent.isFollowArea())
             parent.ChangeState(new EnemyFollow());
 
         //확인용

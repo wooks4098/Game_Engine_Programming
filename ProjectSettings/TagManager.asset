@@ -8,6 +8,8 @@ TagManager:
   - EnemyLookPoint
   - Enemy
   - RunawayPoint
+  - WorldCenter
+  - EnemySpawner
   layers:
   - Default
   - TransparentFX

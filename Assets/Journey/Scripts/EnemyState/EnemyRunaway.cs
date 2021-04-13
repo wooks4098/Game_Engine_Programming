@@ -16,7 +16,6 @@ public class EnemyRunaway : IEnemyState
 
         //확인용
         Debug.Log(parent.name + "의 Runaway Enter");
-        parent.state = Enemy.STATE.RUNAWAY;
     }
     public void Update()
     {
@@ -24,7 +23,8 @@ public class EnemyRunaway : IEnemyState
         parent.nav.ResetPath();
         parent.nav.SetDestination(parent.RunawayPoint.position);
 
-        if (Vector3.Distance(parent.transform.position, parent.target.position) > parent.nav.stoppingDistance * 3) //추적 범위에 없을 때
+        //추적 범위에 없을 때
+        if (Vector3.Distance(parent.transform.position, parent.target.position) > parent.nav.stoppingDistance * 3)
         {
             parent.isDamaged = false;
             parent.ChangeState(new EnemyIdle());

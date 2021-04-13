@@ -3,20 +3,14 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, ICreature
 {
-    //확인용
-    public enum STATE { IDLE, FOLLOW, ATTACK, RUNAWAY, DIE }
-    public STATE state = STATE.IDLE;
-    //확인용
-
-    public Player player;
-    public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점
-    public Transform target; //추적할 대상
-    public Transform RunawayPoint; //도망칠 때의 목표지점
-    public NavMeshAgent nav; //네비 에이전트
-    public Animator ani;
+    [HideInInspector] public Player player;
+    [HideInInspector] public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
+    [HideInInspector] public Transform target; //추적할 대상
+    [HideInInspector] public Transform RunawayPoint; //도망칠 때의 목표지점
+    [HideInInspector] public NavMeshAgent nav;
+    [HideInInspector] public Animator ani;
     
-
-    //스테이터스
+    // Status //
     public bool isDead; //생존 여부
     public float startingHealth = 100; //시작 체력
     public float health;//현재 체력
@@ -26,31 +20,31 @@ public class Enemy : MonoBehaviour, ICreature
     public float accuracy; //명중률
     public float critical; //크리티컬 확률
 
+    // Attack //
     public float delay = 3f; //공격 딜레이
     public float lastAttack; //마지막 공격 시점
     public bool isDamaged = false; //플레이어에게 공격을 받았는지
 
-    //상태
+    // State //
     private IEnemyState currentState;
 
     
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        RunawayPoint = GameObject.FindGameObjectWithTag("RunawayPoint").GetComponent<Transform>();
+        nav = GetComponent<NavMeshAgent>();
+        ani = GetComponent<Animator>();
+
 
         nav.SetDestination(target.position);
 
         ChangeState(new EnemyIdle());
-        
-
     }
     
-    void Start()
-    {
-
-    }
-
-    //스테이터스 초기화
+    // 스테이터스 초기화 //
     public virtual void OnEnable()
     {
         isDead = false;
@@ -58,14 +52,16 @@ public class Enemy : MonoBehaviour, ICreature
         damage = 50;
         defense = 50;
         evasion = 50;
-        evasion = 50;
         accuracy = 50;
         critical = 50;
     }
 
     void Update()
     {
+        //적이 도망갈 때의 목표지점
         RunawayPoint.position = transform.position + ((transform.position - target.position) * 2);
+
+        //상태 전이
         currentState.Update();
     }
 
@@ -79,40 +75,13 @@ public class Enemy : MonoBehaviour, ICreature
         currentState.Enter(this);
     }
 
-    //받을 데미지 계산 (플레이어가 적을 공격할 때)
-    public float Fight(float _damage, float _Critical, float _Accuracy)
-    {
-        int rand = Random.Range(0, 101);
-        if (rand < _Accuracy - evasion)
-        {
-            rand = Random.Range(0, 101);
-            if (rand < _Critical)
-            {
-                _damage = _damage * 1.2f - defense;
-                Debug.Log("적이 플레이어를 공격 - 1");
-            }
-            else
-            {
-                _damage = _damage - defense;
-                Debug.Log("적이 플레이어를 공격 - 2");
-            }
-        }
-        else
-        {
-            _damage = 0;
-            Debug.Log("적이 플레이어를 공격 - 3");
-        }
-
-        return _damage;
-    }
-
-    //추적할 대상이 존재하는지 알려주는 프로퍼티
+    //추적할 대상이 존재하는지
     private bool hasTarget
     {
         get
         {
-            //if (player != null && !player.isDead)
-               // return true;
+            if (player != null) //&& !player.isDead)
+               return true;
 
             return false;
         }
@@ -136,13 +105,41 @@ public class Enemy : MonoBehaviour, ICreature
             return false;
     }
 
-    //공격 받을 때
-    public void OnDamage(float _damage, float _Critical, float _Accuracy)
+    //받을 데미지 계산 (플레이어가 적을 공격할 때)
+    public float Fight(float _damage, float _critical, float _accuracy)
     {
-        health -= Fight(_damage, _Critical, _Accuracy);
-        Debug.Log("enemy 피격");
+        int rand = Random.Range(0, 101);
+        
+        if (rand < _accuracy - evasion)
+        {
+            rand = Random.Range(0, 101);
+            if (rand < _critical)
+            {
+                _damage = _damage * 1.2f - defense;
+                Debug.Log("적이 플레이어를 공격 - 1");
+            }
+            else
+            {
+                _damage = _damage - defense;
+                Debug.Log("적이 플레이어를 공격 - 2");
+            }
+        }
+        else
+        {
+            _damage = 0;
+            Debug.Log("적이 플레이어를 공격 - 3");
+        }
+
+        return _damage;
+    }
+
+    //공격 받을 때
+    public void OnDamage(float _damage, float _critical, float _accuracy)
+    {
+        health -= Fight(_damage, _critical, _accuracy);
         isDamaged = true;
-        //health -= damage;
+
+        Debug.Log("enemy 피격");
 
         if (health <= 0)
             Die();
@@ -165,5 +162,4 @@ public class Enemy : MonoBehaviour, ICreature
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, nav.stoppingDistance);//몬스터별 범위 고치기
     }
-    
 }
