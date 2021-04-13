@@ -38,23 +38,28 @@ public class Player_MouseCheck : Player_Base
         {
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
+                Debug.Log(hitInfo.transform.tag + "클릭");
                 if (hitInfo.transform.tag == "Item")
                 {
                     Item_Info = hitInfo;
                     player.GetItem_start(Item_Info);
+                    player.ChangeState((int)Player_STATE.GetItem);
                 }
                 else if (hitInfo.transform.tag == "채집")
                 {
-
+                    player.ChangeState((int)Player_STATE.Gathering);
                 }
-                else if (hitInfo.transform.tag == "몬스터")
+                else if (hitInfo.transform.tag == "Enemy")
                 {
-
+                    player.ChangeState((int)Player_STATE.Attack);
+                    player.GetMouseHit(hitInfo);
+                    player.AttackStart();
                 }
                 else
                 {
                     //이동
                     player.Move(hitInfo);
+                    player.ChangeState((int)Player_STATE.Move);
                 }
             }
         }
