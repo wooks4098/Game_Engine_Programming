@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public enum Player_STATE { Idle, Move, GetItem, Attack, Gathering };//대기, 이동, 아이템획득, 공격, 채집
-public class Player : Player_Base
+public class Player : Player_Base, ICreature
 {
 
     private int State = 0;
@@ -153,6 +153,8 @@ public class Player : Player_Base
             ResetMove();
             //StartCoroutine("LookAt_Target");
             Debug.Log("플레이어 공격");
+            hit.transform.GetComponent<Enemy>().OnDamage(Attack_Damage,Critical,Accuracy);
+           // hit.transform.GetComponent<Enemy>().Fight();
             StartCoroutine("Change_CanAttack");
         }
         else
@@ -209,4 +211,45 @@ public class Player : Player_Base
         State = _state;
     }
 
+    public void OnEnable()
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public float Fight(float _damage, float _Critical, float _Accuracy)
+    {
+        int rand = Random.Range(0, 101);
+        if (rand < _Accuracy - evasion)
+        {
+            rand = Random.Range(0, 101);
+            if (rand < _Critical)
+            {
+                _damage = _damage * 1.2f - Defense;
+                Debug.Log("적이 플레이어를 공격 - 1");
+            }
+            else
+            {
+                _damage = _damage - Defense;
+                Debug.Log("적이 플레이어를 공격 - 2");
+            }
+        }
+        else
+        {
+            _damage = 0;
+            Debug.Log("적이 플레이어를 공격 - 3");
+        }
+
+        return _damage;
+    }
+
+    public void OnDamage(float _damage, float _Critical, float _Accuracy)
+    {
+        Health -=Fight(_damage, _Critical, _Accuracy);
+        Debug.Log("플레이어 피격");
+    }
+
+    public void Die()
+    {
+        throw new System.NotImplementedException();
+    }
 }

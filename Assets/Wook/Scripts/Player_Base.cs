@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player_Base : MonoBehaviour
 {
+    [SerializeField]
     protected static float Speed = 5f;              //이동 속도
 
      protected static float Health;                 //플레이어 체력

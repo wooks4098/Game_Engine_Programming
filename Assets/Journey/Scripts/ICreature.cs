@@ -9,10 +9,10 @@ public interface ICreature
 	void OnEnable();
 
 	//데미지 계산
-	float Fight(float _evasion, float _defense);
+	float Fight(float _damage, float _Critical, float _Accuracy);
 
 	//데미지를 입는 기능
-	void OnDamage(float damage);
+	void OnDamage(float _damage, float _Critical, float _Accuracy);
 	
 	//사망처리
 	void Die();

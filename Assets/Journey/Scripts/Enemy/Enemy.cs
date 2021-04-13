@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour, ICreature
     public STATE state = STATE.IDLE;
     //확인용
 
-    public PlayerStatus player;
+    public Player player;
     public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점
     public Transform target; //추적할 대상
     public Transform RunawayPoint; //도망칠 때의 목표지점
@@ -36,8 +36,13 @@ public class Enemy : MonoBehaviour, ICreature
     
     void Awake()
     {
-        ChangeState(new EnemyIdle());
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
         nav.SetDestination(target.position);
+
+        ChangeState(new EnemyIdle());
+        
+
     }
     
     void Start()
@@ -75,30 +80,27 @@ public class Enemy : MonoBehaviour, ICreature
     }
 
     //받을 데미지 계산 (플레이어가 적을 공격할 때)
-    public float Fight(float _evasion, float _defense)
+    public float Fight(float _damage, float _Critical, float _Accuracy)
     {
         int rand = Random.Range(0, 101);
-
-        float _damage = 0f;
-
-        if (0 < accuracy - _evasion)
+        if (rand < _Accuracy - evasion)
         {
             rand = Random.Range(0, 101);
-            if (0 < critical)
+            if (rand < _Critical)
             {
-                _damage = damage * 1.2f - _defense;
-                Debug.Log("플레이어가 적을 공격 - 1");
+                _damage = _damage * 1.2f - defense;
+                Debug.Log("적이 플레이어를 공격 - 1");
             }
             else
             {
-                _damage = damage - _defense;
-                Debug.Log("플레이어가 적을 공격 - 2");
+                _damage = _damage - defense;
+                Debug.Log("적이 플레이어를 공격 - 2");
             }
         }
         else
         {
             _damage = 0;
-            Debug.Log("플레이어가 적을 공격 - 3");
+            Debug.Log("적이 플레이어를 공격 - 3");
         }
 
         return _damage;
@@ -109,8 +111,8 @@ public class Enemy : MonoBehaviour, ICreature
     {
         get
         {
-            if (player != null && !player.isDead)
-                return true;
+            //if (player != null && !player.isDead)
+               // return true;
 
             return false;
         }
@@ -135,10 +137,12 @@ public class Enemy : MonoBehaviour, ICreature
     }
 
     //공격 받을 때
-    public void OnDamage(float damage)
+    public void OnDamage(float _damage, float _Critical, float _Accuracy)
     {
+        health -= Fight(_damage, _Critical, _Accuracy);
+        Debug.Log("enemy 피격");
         isDamaged = true;
-        health -= damage;
+        //health -= damage;
 
         if (health <= 0)
             Die();
