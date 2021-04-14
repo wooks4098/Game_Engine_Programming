@@ -23,7 +23,9 @@ MonoBehaviour:
   - "\uD1B5\uB098\uBB34"
   Crafting_Count: 0400000004000000
   Crafting_Sprite:
-  - {fileID: 21300000, guid: b7db16a6b36451845b244bf4b1de2f73, type: 3}
-  - {fileID: 21300000, guid: 4f2584b909f8ea9429137bba5f6de0d5, type: 3}
-  itemSprite: {fileID: 0}
-  itemInfo: 
+  - {fileID: 21300000, guid: 578be707aa85da340884440c70ec6245, type: 3}
+  - {fileID: 21300000, guid: 00c403ad41b0dbf4f9d10e8f6047db87, type: 3}
+  itemSprite: {fileID: 21300000, guid: 2da8654bdea77a74a922f3881fee0eb2, type: 3}
+  itemInfo: "1*2\uB9CC\uD07C \uBCBD\uC744 \uB9CC\uB4E4 \uC218 \uC788\uB2E4. \n\uBC24
+    \uC911 \uC57C\uC0DD\uB3D9\uBB3C\uC758 \uC704\uD5D9\uC744 \uB9C9\uC544\uC904 \uC218
+    \uC788\uC744\uC815\uB3C4\uB85C \uD2BC\uD2BC\uD574 \uBCF4\uC778\uB2E4\r\n"

@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aaeab68aecf7e243b865001459e90b9, type: 3}
-  m_Name: Apple
+  m_Name: Egg
   m_EditorClassIdentifier: 
   isActive: 0
-  itemName: "\uC0AC\uACFC"
-  itemType: 1
+  itemName: "\uB2EC\uAC40"
+  itemType: 0
   itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
   Crafting_ItemName: []
   Crafting_Count: 
   Crafting_Sprite: []
-  itemSprite: {fileID: 21300000, guid: cf9d94e9814874748b5dc6db58b969be, type: 3}
-  itemInfo: "\uD0D0\uC2A4\uB7FD\uAC8C \uC775\uC740 \uC0AC\uACFC\uB2E4. \n\uBA39\uC73C\uBA74
-    \uD3EC\uB9CC\uAC10\uC744 \uCC44\uC6B8 \uC218 \uC788\uC744\uAC83\uAC19\uB2E4.\r\n"
+  itemSprite: {fileID: 21300000, guid: 0c96a731ad40d9b4cbf76cc9b501fd4a, type: 3}
+  itemInfo: "\uAC16 \uC7A1\uC740 \uB2ED\uC774 \uD488\uACE0\uC788\uB358 \uB2EC\uAC40\uC774\uB2E4.
+    \n\uC544\uC9C1 \uB530\uB048\uB530\uADFC\uD558\uB2C8 \uC5B8\uB978 \uC870\uB9AC\uD574\uC11C
+    \uBA39\uB3C4\uB85D \uD558\uC790.\r\n"

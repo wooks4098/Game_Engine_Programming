@@ -18,6 +18,9 @@ MonoBehaviour:
   itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
-  itemSprite: {fileID: 21300000, guid: 4f2584b909f8ea9429137bba5f6de0d5, type: 3}
+  Crafting_ItemName: []
+  Crafting_Count: 
+  Crafting_Sprite: []
+  itemSprite: {fileID: 21300000, guid: 00c403ad41b0dbf4f9d10e8f6047db87, type: 3}
   itemInfo: "\uBAA9\uC870\uAC74\uBB3C\uC744 \uC9D3\uAC70\uB098 \uAC74\uCD95\uBB3C\uC5D0
     \uC0AC\uC6A9\uB420\uBC95\uD55C \uD2BC\uC2E4\uD55C \uB098\uBB34\uB2E4.\r"

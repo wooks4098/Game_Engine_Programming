@@ -22,6 +22,8 @@ MonoBehaviour:
   - "\uBB3C\uACE0\uAE30"
   Crafting_Count: 01000000
   Crafting_Sprite:
-  - {fileID: 0}
-  itemSprite: {fileID: 0}
-  itemInfo: 
+  - {fileID: 21300000, guid: 1dfc8749f811d2b409d7c88c9600565c, type: 3}
+  itemSprite: {fileID: 21300000, guid: 5bb74313deca66a4e9c6560be6f09bea, type: 3}
+  itemInfo: "\uBD88\uC5D0 \uAD6C\uC6CC\uC11C \uB9CC\uB4E0 \uC0DD\uC120\uAF2C\uC9C0\uB2E4.\n
+    \uBB34\uC2A8\uC885\uB958\uC758 \uBB3C\uACE0\uAE30\uC778\uC9C0\uB294 \uBAA8\uB974\uACA0\uC9C0\uB9CC
+    \uC88B\uC740\uB0C4\uC0C8\uAC00 \uB09C\uB2E4.\r\n"

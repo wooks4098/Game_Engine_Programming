@@ -15,8 +15,11 @@ MonoBehaviour:
   isActive: 0
   itemName: "\uB3CC"
   itemType: 0
-  weight: 0
+  itemweight: 0
   Posivive_Effect: 0
   Negative_Effect: 0
-  itemSprite: {fileID: 21300000, guid: b7db16a6b36451845b244bf4b1de2f73, type: 3}
-  Explanation: "\uBC14\uB2E5\uC5D0 \uD754\uD788 \uB110\uB9B0 \uB3CC\uC774\uB2E4"
+  Crafting_ItemName: []
+  Crafting_Count: 
+  Crafting_Sprite: []
+  itemSprite: {fileID: 21300000, guid: 578be707aa85da340884440c70ec6245, type: 3}
+  itemInfo: "\uBC14\uB2E5\uC5D0 \uD754\uD788 \uB110\uB9B0 \uB3CC\uC774\uB2E4\r\n"
