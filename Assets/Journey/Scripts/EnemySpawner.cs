@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterSpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     public int enemyNum;
@@ -34,7 +34,7 @@ public class MonsterSpawner : MonoBehaviour
     }
 
     //랜덤 지점 찾기
-    private Vector3 GetRandomPoint(Vector3 center, float radius)
+    public Vector3 GetRandomPoint(Vector3 center, float radius)
     {
         //구 안의 랜덤한 하나의 점
         Vector3 randomPos = Random.insideUnitSphere * radius + center;
