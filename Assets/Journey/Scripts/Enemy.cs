@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour, ICreature
     [HideInInspector] public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
     [HideInInspector] public Transform target; //추적할 대상
     [HideInInspector] public Transform RunawayPoint; //도망칠 때의 목표지점
+    [HideInInspector] public Transform DestinationPos; //배회할 때의 목표지점
     [HideInInspector] public NavMeshAgent nav;
     [HideInInspector] public Animator ani;
     
@@ -32,9 +33,10 @@ public class Enemy : MonoBehaviour, ICreature
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        RunawayPoint = GameObject.FindGameObjectWithTag("RunawayPoint").GetComponent<Transform>();
+        EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
+        //RunawayPoint = transform.Find("RunawayPoint");
+        DestinationPos = GameObject.FindGameObjectWithTag("DestinationPos").GetComponent<Transform>();
         nav = GetComponent<NavMeshAgent>();
         ani = GetComponent<Animator>();
 

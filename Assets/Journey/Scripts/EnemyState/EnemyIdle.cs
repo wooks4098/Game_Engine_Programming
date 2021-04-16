@@ -6,18 +6,22 @@ using UnityEngine.AI;
 public class EnemyIdle : IEnemyState
 {
     private Enemy parent;
+    private EnemySpawner enemySpawner;
 
     public void Enter(Enemy parent)
     {
         this.parent = parent;
         parent.nav.isStopped = true;
 
+        Debug.Log("실험");
+        parent.DestinationPos.position = enemySpawner.GetRandomPoint(parent.transform.position, 3f);
+
         //확인용
         Debug.Log(parent.name + "의 Idle Enter");
     }
     public void Update()
     {
-        parent.nav.SetDestination(parent.target.position);
+        parent.nav.SetDestination(parent.DestinationPos.position);
 
         switch (parent.name)
         {

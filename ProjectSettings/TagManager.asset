@@ -10,6 +10,7 @@ TagManager:
   - RunawayPoint
   - WorldCenter
   - EnemySpawner
+  - DestinationPos
   layers:
   - Default
   - TransparentFX
