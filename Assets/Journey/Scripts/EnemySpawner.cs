@@ -7,12 +7,6 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     public int enemyNum;
-    private Transform WorldCenter;
-
-    void Awake()
-    {
-        WorldCenter = GameObject.FindGameObjectWithTag("WorldCenter").GetComponent<Transform>();
-    }
 
     private void Start()
     {
@@ -24,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn()
     {
         //랜덤 지점 받아오기
-        Vector3 spawnPoint = GetRandomPoint(WorldCenter.position, 15f);
+        Vector3 spawnPoint = GetRandomPoint(transform.position, 15f); //스포너 위치를 기준으로 거리 15 내의 지점
 
         //프리팹 인스턴스화
         GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPoint, Quaternion.identity);

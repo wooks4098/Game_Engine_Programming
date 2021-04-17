@@ -6,7 +6,6 @@ public class Enemy : MonoBehaviour, ICreature
     [HideInInspector] public Player player;
     [HideInInspector] public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
     [HideInInspector] public Transform target; //추적할 대상
-    [HideInInspector] public Transform RunawayPoint; //도망칠 때의 목표지점
     [HideInInspector] public Transform DestinationPos; //배회할 때의 목표지점
     [HideInInspector] public NavMeshAgent nav;
     [HideInInspector] public Animator ani;
@@ -35,12 +34,11 @@ public class Enemy : MonoBehaviour, ICreature
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
-        //RunawayPoint = transform.Find("RunawayPoint");
         DestinationPos = GameObject.FindGameObjectWithTag("DestinationPos").GetComponent<Transform>();
         nav = GetComponent<NavMeshAgent>();
         ani = GetComponent<Animator>();
 
-
+        //처음에는 
         nav.SetDestination(target.position);
 
         ChangeState(new EnemyIdle());
@@ -61,7 +59,7 @@ public class Enemy : MonoBehaviour, ICreature
     void Update()
     {
         //적이 도망갈 때의 목표지점
-        RunawayPoint.position = transform.position + ((transform.position - target.position) * 2);
+        //RunawayPoint.position = transform.position + ((transform.position - target.position) * 2);
 
         //상태 전이
         currentState.Update();
@@ -157,6 +155,7 @@ public class Enemy : MonoBehaviour, ICreature
     }
 
     //적의 공격 범위, 추적 범위 보이기
+    /*
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -164,4 +163,5 @@ public class Enemy : MonoBehaviour, ICreature
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, nav.stoppingDistance);//몬스터별 범위 고치기
     }
+    */
 }

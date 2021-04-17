@@ -21,7 +21,7 @@ public class EnemyRunaway : IEnemyState
     {
         //새 목표지점 = 플레이어 반대 방향
         parent.nav.ResetPath();
-        parent.nav.SetDestination(parent.RunawayPoint.position);
+        //parent.nav.SetDestination(parent.RunawayPoint.position);
 
         //추적 범위에 없을 때
         if (Vector3.Distance(parent.transform.position, parent.target.position) > parent.nav.stoppingDistance * 3)
