@@ -21,10 +21,12 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPoi
     private GameObject text_Count_obj;
     private Inventory_RightClick inventory_RightClick;
     private Inventory_LeftClick inventory_LefttClick;
-
+    [SerializeField]
+    private Item_Using item_using;
     private void Start()
     {
         orginPos = transform.position;
+        item_using = FindObjectOfType<Item_Using>();
         inventory_RightClick = FindObjectOfType<Inventory_RightClick>();
         inventory_LefttClick = FindObjectOfType<Inventory_LeftClick>();
     }
@@ -79,6 +81,11 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPoi
         text_Count_obj.SetActive(false);
     }
 
+    public void inventory_RightClick_Off()
+    {
+        inventory_RightClick.Hide();
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         //throw new System.NotImplementedException();
@@ -87,11 +94,10 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPoi
             if(item!= null)
             {
                 inventory_LefttClick.Hide();
+                item_using.Click_Item(this);
                 inventory_RightClick.Show(item, this.transform.position);
-
             }
         }
-
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -109,11 +115,9 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPoi
                     DragSlot.instance.DragSetImage(itemImage);
 
                     DragSlot.instance.transform.position = eventData.position;
-                }
-                    
+                }      
             }
         }
-         
     }
 
     public void OnDrag(PointerEventData eventData)

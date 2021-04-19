@@ -38,7 +38,6 @@ public class Player_MouseCheck : Player_Base
         {
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
-                Debug.Log(hitInfo.transform.tag + "클릭");
                 if (hitInfo.transform.tag == "Item")
                 {
                     Item_Info = hitInfo;
