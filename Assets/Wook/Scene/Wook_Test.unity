@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44282615, g: 0.49198025, b: 0.5717505, a: 1}
+  m_IndirectSpecularColor: {r: 0.44282606, g: 0.49197984, b: 0.57174975, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1268,23 +1268,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 1759016944}
+        m_MethodName: CloseCraftUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1815,6 +1804,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254539086438566796, guid: 9cbe638473fb20f44bfcc3a69e40d5fc,
+        type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254539086438566796, guid: 9cbe638473fb20f44bfcc3a69e40d5fc,
+        type: 3}
+      propertyPath: itemCount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cbe638473fb20f44bfcc3a69e40d5fc, type: 3}
@@ -3276,6 +3275,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254539086438566796, guid: 9cbe638473fb20f44bfcc3a69e40d5fc,
+        type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254539086438566796, guid: 9cbe638473fb20f44bfcc3a69e40d5fc,
+        type: 3}
+      propertyPath: itemCount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cbe638473fb20f44bfcc3a69e40d5fc, type: 3}
@@ -6530,6 +6539,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3254539086438566796, guid: 9cbe638473fb20f44bfcc3a69e40d5fc,
+        type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254539086438566796, guid: 9cbe638473fb20f44bfcc3a69e40d5fc,
+        type: 3}
+      propertyPath: itemCount
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cbe638473fb20f44bfcc3a69e40d5fc, type: 3}
 --- !u!1001 &1498839199
@@ -8358,6 +8377,10 @@ MonoBehaviour:
   Content: {fileID: 1991138401}
   R: {fileID: 2133190289}
   Inventory: {fileID: 171826110}
+  Value:
+  - {fileID: 1350621912}
+  - {fileID: 299802487}
+  - {fileID: 460860996}
 --- !u!114 &1759016945
 MonoBehaviour:
   m_ObjectHideFlags: 0

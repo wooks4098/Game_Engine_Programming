@@ -26,7 +26,7 @@ public class CraftUI : MonoBehaviour
     public GameObject R;
     [SerializeField]
     private Inventory Inventory;
-
+    public GameObject []Value;
     
     //조합 채크
     bool[] check_craft = { true, true, true };
@@ -58,7 +58,7 @@ public class CraftUI : MonoBehaviour
         CraftUI_Base.SetActive(true);
     }
 
-    void CloseCraftUI()
+    public void CloseCraftUI()
     {
         CraftUI_Base.SetActive(false);
     }
@@ -137,29 +137,45 @@ public class CraftUI : MonoBehaviour
 
         //조합 재료 필요한 만큼 활성화
         for (int index = 0; index < crafting_set.item_Set[Num2].item[Num].Crafting_Sprite.Length; index++)
-                {
+         {
             //각 조합재료 이미지 세팅
-            R.transform.GetChild(1).transform.GetChild(index).GetComponent<Image>().sprite = crafting_set.item_Set[Num2].item[Num].Crafting_Sprite[index];
+            Value[index].GetComponent<Image>().sprite = crafting_set.item_Set[Num2].item[Num].Crafting_Sprite[index];
+
             for (int index1 = 0; index1 < 8; index1++)
             {
-                //인벤토리와 조합재료 비교
-                if (Inventory.transform.GetChild(0).transform.GetChild(0).transform.GetChild(1).transform.GetChild(index1).GetComponent<Slot>().item != null &&
-                    Inventory.transform.GetChild(0).transform.GetChild(0).transform.GetChild(1).transform.GetChild(index1).GetComponent<Slot>().item.itemName ==
-                    crafting_set.item_Set[Num2].item[Num].Crafting_ItemName[index])
+                
+                //인벤토리 서치 - 아이템이 있는지
+                 if (Inventory.Etc_slots[index1].item!=null && Inventory.Etc_slots[index1].item.itemName == crafting_set.item_Set[Num2].item[Num].Crafting_ItemName[index])
                 {
-                    //인벤토리내 아이템 갯수 + "/" + 조합재료 갯수
-                    R.transform.GetChild(1).transform.GetChild(index).transform.GetChild(0).GetComponent<Text>().text =
-                        Inventory.transform.GetChild(0).transform.GetChild(0).transform.GetChild(1).transform.GetChild(index1).GetComponent<Slot>().item.itemName + " / " + crafting_set.item_Set[Num2].item[Num].Crafting_Count[index];
-
+                    Value[index].GetComponentInChildren<Text>().text =
+                    Inventory.Etc_slots[index1].itemCount + " / " + crafting_set.item_Set[Num2].item[Num].Crafting_Count[index];
+                    //인벤토리내 오브젝트의 갯수가 같거나 많으면
+                    if (Inventory.Etc_slots[index1].itemCount >= crafting_set.item_Set[Num2].item[Num].Crafting_Count[index])
+                    {
+                        Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 1.0f);
+                        check_craft[index] = true;
+                        break;
+                    }
+                    else            //아이템의 갯수가 적다면
+                    {
+                       
+                        Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+                        check_craft[index] = false;
+                        break;
+                    }
                 }
-                else
+                else            //아이템이 없다면
                 {
-                    R.transform.GetChild(1).transform.GetChild(index).transform.GetChild(0).GetComponent<Text>().color = new Color(125f, 15f, 125f);
-                    R.transform.GetChild(1).transform.GetChild(index).transform.GetChild(0).GetComponent<Text>().text = "0 / " + crafting_set.item_Set[Num2].item[Num].Crafting_Count[index];
-                    // 조합 불가능
+                    
+                    Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+                    Value[index].GetComponentInChildren<Text>().text =
+                    "0 / " + crafting_set.item_Set[Num2].item[Num].Crafting_Count[index];
                     check_craft[index] = false;
                 }
+                if (check_craft[index] == true)
+                { break; }
             }
+
         }
         //조합 재료 필요없는부분 비활성화
         for (int index1 = crafting_set.item_Set[Num2].item[Num].Crafting_Sprite.Length; index1 < 3; index1++)
@@ -167,6 +183,7 @@ public class CraftUI : MonoBehaviour
             
             R.transform.GetChild(1).transform.GetChild(index1).gameObject.SetActive(false);
         }
+
 
     }
 
