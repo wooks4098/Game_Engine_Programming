@@ -80,6 +80,10 @@ public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler ,IPoi
         text_Count.text = "0";
         text_Count_obj.SetActive(false);
     }
+    public int Get_Count()
+    {
+        return itemCount;
+    }
 
     public void inventory_RightClick_Off()
     {

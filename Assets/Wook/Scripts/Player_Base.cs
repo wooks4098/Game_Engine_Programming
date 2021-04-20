@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player_Base : MonoBehaviour
 {
     [SerializeField]
     protected static float Speed = 5f;              //이동 속도
 
-     protected static float Health = 100;                 //플레이어 체력
+    protected static float Health = 100;                 //플레이어 체력
     protected static float Health_Max = 100;                 //플레이어 체력
 	 protected static float Hungry = 100;                 //플레이어 배고픔
     protected static float Thirsty = 100;                //플레이어 목마름
@@ -24,8 +25,18 @@ public class Player_Base : MonoBehaviour
     protected static float Get_Item_Range = 2f;     //아이템 획득 가능 거리
     protected static float Gatheringm_Range = 2f;   //채집 가능 거리
 
-    
+    public static int Crafting_State;
 
+    public enum CRAFTING_STATE
+    {
+        solo,
+        hut,
+        campfire
+    }
+    private void Awake()
+    {
+        Crafting_State = (int)CRAFTING_STATE.solo;
+    }
 
     private void OnDrawGizmosSelected()
     {

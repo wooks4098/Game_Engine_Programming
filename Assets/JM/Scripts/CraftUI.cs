@@ -8,17 +8,24 @@ using UnityEngine.EventSystems;
 
 public class CraftUI : MonoBehaviour
 {
-    static int TESTCODE = 2;
+    public static bool CraftUIActivated = false;
+    private int player_Craft_State;
+
+    [SerializeField]
+    private GameObject CraftUI_Base;
+
     public Button Crafting_Button;
     
     public GameObject Mix_Item;
 
     Crafting_Set crafting_set;
-
+  
+    private Slot[] Slots;
     
     public GameObject Content;
     public GameObject R;
-    public GameObject Inventory;
+    [SerializeField]
+    private Inventory Inventory;
 
     
     //조합 채크
@@ -30,6 +37,31 @@ public class CraftUI : MonoBehaviour
         Binding_Crafting_Set();  
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CraftUIActivated = !CraftUIActivated;
+
+            if (CraftUIActivated)
+                OpenCraftUI();
+            else
+                CloseCraftUI();
+
+
+        }
+    }
+
+    void OpenCraftUI()
+    {
+        player_Craft_State = Player_Base.Crafting_State;
+        CraftUI_Base.SetActive(true);
+    }
+
+    void CloseCraftUI()
+    {
+        CraftUI_Base.SetActive(false);
+    }
 
     public void OnClick_check()
     {
@@ -42,28 +74,28 @@ public class CraftUI : MonoBehaviour
             //테스트!!!!!!!!!!!!!!! : 두번쨰 파라미터 -바운더리값 
 
             case "Mix_Table0":
-                create_MixTable(0, TESTCODE);
+                create_MixTable(0, player_Craft_State);
                     break;
             case "Mix_Table1":
-                create_MixTable(1, TESTCODE);
+                create_MixTable(1, player_Craft_State);
                 break;
             case "Mix_Table2":
-                create_MixTable(2, TESTCODE);
+                create_MixTable(2, player_Craft_State);
                 break;
             case "Mix_Table3":
-                create_MixTable(3, TESTCODE);
+                create_MixTable(3, player_Craft_State);
                 break;
             case "Mix_Table4":
-                create_MixTable(4, TESTCODE);
+                create_MixTable(4, player_Craft_State);
                 break;
             case "Mix_Table5":
-                create_MixTable(5, TESTCODE);
+                create_MixTable(5, player_Craft_State);
                 break;
             case "Mix_Table6":
-                create_MixTable(6, TESTCODE);
+                create_MixTable(6, player_Craft_State);
                 break;
             case "Mix_Table7":
-                create_MixTable(7, TESTCODE);
+                create_MixTable(7, player_Craft_State);
                 break;
                 
         }
@@ -76,6 +108,9 @@ public class CraftUI : MonoBehaviour
             Debug.Log("crafting");
         else
             Debug.Log("Nope");
+
+
+
     }
 
 
@@ -88,15 +123,19 @@ public class CraftUI : MonoBehaviour
         R.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(true);
         R.transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(true);
 
+        /*
+        크래프팅 아이템 클릭
+        인벤토리 슬롯 탐색 -> 해당 쟤료가 있으면 슬롯에 저장 (배열)
+        개수 Get_Count()를 사용해서 변경
+         */
 
-        
+
         R.transform.GetChild(0).GetComponent<Image>().sprite = crafting_set.item_Set[Num2].item[Num].itemSprite;
         R.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = crafting_set.item_Set[Num2].item[Num].itemName;
         R.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = crafting_set.item_Set[Num2].item[Num].itemInfo;
-     
+
 
         //조합 재료 필요한 만큼 활성화
-
         for (int index = 0; index < crafting_set.item_Set[Num2].item[Num].Crafting_Sprite.Length; index++)
                 {
             //각 조합재료 이미지 세팅
@@ -134,7 +173,7 @@ public class CraftUI : MonoBehaviour
 
     void Binding_Crafting_Set()
     {
-                crafting_Menu_Create(TESTCODE);
+                crafting_Menu_Create(player_Craft_State);
     }
 
     void crafting_Menu_Create(int num)

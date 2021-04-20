@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private GameObject inventory_LeftClick;
     //슬롯
-    private Slot[] Etc_slots;
+    public Slot[] Etc_slots;
 
     private void Awake()
     {
