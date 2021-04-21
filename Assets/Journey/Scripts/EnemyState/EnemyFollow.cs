@@ -5,41 +5,41 @@ using UnityEngine;
 public class EnemyFollow : IEnemyState
 {
     //이 상태는 늑대와 닭만 사용
-    private Enemy parent;
+    private Enemy enemy;
 
-    public void Enter(Enemy parent)
+    public void Enter(Enemy enemy)
     {
-        this.parent = parent;
+        this.enemy = enemy;
 
-        parent.nav.isStopped = false;
-        parent.ani.SetBool("isRun", true);
+        enemy.nav.isStopped = false;
+        enemy.ani.SetBool("isRun", true);
 
         //확인용
-        Debug.Log(parent.name + "의 Follow Enter");
+        Debug.Log(enemy.name + "의 Follow Enter");
     }
     public void Update()
     {
-        parent.nav.SetDestination(parent.target.position);
+        enemy.nav.SetDestination(enemy.playerPos.position);
 
         //공격 범위에 있을 때
-        if (parent.isAttackArea())
-            parent.ChangeState(new EnemyAttack());
+        if (enemy.isAttackArea())
+            enemy.ChangeState(new EnemyAttack());
 
         //공격 범위에 없고, 추적 범위에 없을 때
-        else if (!parent.isFollowArea()) 
+        else if (!enemy.isFollowArea()) 
         {
-            parent.ChangeState(new EnemyIdle());
-            parent.isDamaged = false;
+            enemy.ChangeState(new EnemyWalk());
+            enemy.isDamaged = false;
         }
 
             //확인용
-            Debug.Log(parent.name + "의 Follow Update");
+            Debug.Log(enemy.name + "의 Follow Update");
     }
     public void Exit()
     {
-        parent.ani.SetBool("isRun", false);
+        enemy.ani.SetBool("isRun", false);
 
         //확인용
-        Debug.Log(parent.name + "의 Follow Exit");
+        Debug.Log(enemy.name + "의 Follow Exit");
     }
 }

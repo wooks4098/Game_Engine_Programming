@@ -1,44 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyRunaway : IEnemyState
 {
     //이 상태는 양만 사용
 
-    private Enemy parent;
+    private Enemy enemy;
 
-    public void Enter(Enemy parent)
+    public void Enter(Enemy enemy)
     {
-        this.parent = parent;
+        this.enemy = enemy;
 
-        parent.ani.SetBool("isRun", true);
+        enemy.ani.SetBool("isRun", true);
 
         //확인용
-        Debug.Log(parent.name + "의 Runaway Enter");
+        Debug.Log(enemy.name + "의 Runaway Enter");
     }
     public void Update()
-    {
+    {        //적이 도망갈 때의 목표지점
+             //RunawayPoint.position = transform.position + ((transform.position - playerPos.position) * 2);
+
+
+
         //새 목표지점 = 플레이어 반대 방향
-        parent.nav.ResetPath();
+        enemy.nav.ResetPath();
         //parent.nav.SetDestination(parent.RunawayPoint.position);
 
         //추적 범위에 없을 때
-        if (Vector3.Distance(parent.transform.position, parent.target.position) > parent.nav.stoppingDistance * 3)
+        if (Vector3.Distance(enemy.transform.position, enemy.playerPos.position) > enemy.nav.stoppingDistance * 3)
         {
-            parent.isDamaged = false;
-            parent.ChangeState(new EnemyIdle());
+            enemy.isDamaged = false;
+            enemy.ChangeState(new EnemyWalk());
         }
 
         //확인용
-        Debug.Log(parent.name + "의 Runaway Update");
+        Debug.Log(enemy.name + "의 Runaway Update");
     }
     public void Exit()
     {
-        parent.nav.ResetPath();
-        parent.ani.SetBool("isRun", false);
+        enemy.nav.ResetPath();
+        enemy.ani.SetBool("isRun", false);
 
         //확인용
-        Debug.Log(parent.name + "의 Runaway Exit");
+        Debug.Log(enemy.name + "의 Runaway Exit");
     }
 }

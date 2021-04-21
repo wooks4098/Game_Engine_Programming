@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, ICreature
 {
     [HideInInspector] public Player player;
     [HideInInspector] public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
-    [HideInInspector] public Transform target; //추적할 대상
-    [HideInInspector] public Transform DestinationPos; //배회할 때의 목표지점
+    [HideInInspector] public Transform playerPos; //실제로 추적할 대상
+    [HideInInspector] public Transform DestinationPos; //목표지점
     [HideInInspector] public NavMeshAgent nav;
     [HideInInspector] public Animator ani;
+
+    private EnemySpawner enemySpawner;
     
     // Status //
     public bool isDead; //생존 여부
@@ -24,26 +28,28 @@ public class Enemy : MonoBehaviour, ICreature
     public float delay = 3f; //공격 딜레이
     public float lastAttack; //마지막 공격 시점
     public bool isDamaged = false; //플레이어에게 공격을 받았는지
+    private float attackBoundary; //공격 범위
 
     // State //
     private IEnemyState currentState;
 
-    
+
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
+        playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         DestinationPos = GameObject.FindGameObjectWithTag("DestinationPos").GetComponent<Transform>();
         nav = GetComponent<NavMeshAgent>();
         ani = GetComponent<Animator>();
 
-        //처음에는 
-        nav.SetDestination(target.position);
+        nav.SetDestination(DestinationPos.position);
+        attackBoundary = nav.stoppingDistance;
 
-        ChangeState(new EnemyIdle());
+        ChangeState(new EnemyWalk());
+        Debug.Log("성공");
     }
-    
+
     // 스테이터스 초기화 //
     public virtual void OnEnable()
     {
@@ -58,9 +64,6 @@ public class Enemy : MonoBehaviour, ICreature
 
     void Update()
     {
-        //적이 도망갈 때의 목표지점
-        //RunawayPoint.position = transform.position + ((transform.position - target.position) * 2);
-
         //상태 전이
         currentState.Update();
     }
@@ -80,17 +83,17 @@ public class Enemy : MonoBehaviour, ICreature
     {
         get
         {
-            if (player != null) //&& !player.isDead)
+            if (player != null)//&& !player.isDead)
                return true;
 
             return false;
         }
     }
-
+    
     //공격 범위에 들어왔는지
     public bool isAttackArea()
     {
-        if (nav.remainingDistance <= nav.stoppingDistance)
+        if (attackBoundary <= Vector3.Distance(transform.position, playerPos.position))
             return true;
         else
             return false;
@@ -99,7 +102,7 @@ public class Enemy : MonoBehaviour, ICreature
     //추적 범위에 들어왔는지
     public bool isFollowArea()
     {
-        if (nav.remainingDistance <= nav.stoppingDistance * 3) //인식 범위에 들어온 경우
+        if (attackBoundary * 3 <= Vector3.Distance(transform.position, playerPos.position))
             return true;
         else
             return false;
@@ -144,8 +147,8 @@ public class Enemy : MonoBehaviour, ICreature
         if (health <= 0)
             Die();
     }
-
-    //사망 처리
+    
+    //사망 처리 //state로 수정
     public void Die()
     {
         ani.SetTrigger("Die");
@@ -153,15 +156,4 @@ public class Enemy : MonoBehaviour, ICreature
         isDead = true;
         Destroy(gameObject, 5f);
     }
-
-    //적의 공격 범위, 추적 범위 보이기
-    /*
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, nav.stoppingDistance*3);//몬스터별 범위 고치기
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, nav.stoppingDistance);//몬스터별 범위 고치기
-    }
-    */
 }
