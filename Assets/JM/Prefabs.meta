@@ -1,5 +1,17 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream:Assets/JM/Prefabs.meta
 guid: 4d9be55299c2f424cb1f63a8dda8c24a
+=======
+guid: be9fa3e7a691b4a418a0dc0b5fb0a4fe
+>>>>>>> Stashed changes:Assets/ASSETSORUCE/Charicter.meta
+=======
+<<<<<<< HEAD:Assets/ASSETSORUCE.meta
+guid: 3948d208e62ccd3408706ffcbb2d0120
+=======
+guid: 4d9be55299c2f424cb1f63a8dda8c24a
+>>>>>>> 5185931bd4017276040fe5f99a011646e16b0983:Assets/JM/Prefabs.meta
+>>>>>>> Stashed changes
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
