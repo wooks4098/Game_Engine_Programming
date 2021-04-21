@@ -24,12 +24,13 @@ public class Enemy : MonoBehaviour, ICreature
     public float accuracy; //명중률
     public float critical; //크리티컬 확률
 
+    // Attack //
     public float delay = 3f; //공격 딜레이
     public float lastAttack; //마지막 공격 시점
     public bool isDamaged = false; //플레이어에게 공격을 받았는지
     private float attackBoundary; //공격 범위
 
-    //상태
+    // State //
     private IEnemyState currentState;
 
 
@@ -57,7 +58,6 @@ public class Enemy : MonoBehaviour, ICreature
         damage = 50;
         defense = 50;
         evasion = 50;
-        evasion = 50;
         accuracy = 50;
         critical = 50;
     }
@@ -78,34 +78,7 @@ public class Enemy : MonoBehaviour, ICreature
         currentState.Enter(this);
     }
 
-    //받을 데미지 계산 (플레이어가 적을 공격할 때)
-    public float Fight(float _damage, float _Critical, float _Accuracy)
-    {
-        int rand = Random.Range(0, 101);
-        if (rand < _Accuracy - evasion)
-        {
-            rand = Random.Range(0, 101);
-            if (rand < _Critical)
-            {
-                _damage = _damage * 1.2f - defense;
-                Debug.Log("적이 플레이어를 공격 - 1");
-            }
-            else
-            {
-                _damage = _damage - defense;
-                Debug.Log("적이 플레이어를 공격 - 2");
-            }
-        }
-        else
-        {
-            _damage = 0;
-            Debug.Log("적이 플레이어를 공격 - 3");
-        }
-
-        return _damage;
-    }
-
-    //추적할 대상이 존재하는지 알려주는 프로퍼티
+    //추적할 대상이 존재하는지
     private bool hasTarget
     {
         get
@@ -135,13 +108,41 @@ public class Enemy : MonoBehaviour, ICreature
             return false;
     }
 
-    //공격 받을 때
-    public void OnDamage(float _damage, float _Critical, float _Accuracy)
+    //받을 데미지 계산 (플레이어가 적을 공격할 때)
+    public float Fight(float _damage, float _critical, float _accuracy)
     {
-        health -= Fight(_damage, _Critical, _Accuracy);
-        Debug.Log("enemy 피격");
+        int rand = Random.Range(0, 101);
+        
+        if (rand < _accuracy - evasion)
+        {
+            rand = Random.Range(0, 101);
+            if (rand < _critical)
+            {
+                _damage = _damage * 1.2f - defense;
+                Debug.Log("적이 플레이어를 공격 - 1");
+            }
+            else
+            {
+                _damage = _damage - defense;
+                Debug.Log("적이 플레이어를 공격 - 2");
+            }
+        }
+        else
+        {
+            _damage = 0;
+            Debug.Log("적이 플레이어를 공격 - 3");
+        }
+
+        return _damage;
+    }
+
+    //공격 받을 때
+    public void OnDamage(float _damage, float _critical, float _accuracy)
+    {
+        health -= Fight(_damage, _critical, _accuracy);
         isDamaged = true;
-        //health -= damage;
+
+        Debug.Log("enemy 피격");
 
         if (health <= 0)
             Die();
