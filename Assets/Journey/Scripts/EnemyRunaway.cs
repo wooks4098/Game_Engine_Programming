@@ -9,6 +9,7 @@ public class EnemyRunaway : IEnemyState
     public void Enter(Enemy enemy)
     {
         this.enemy = enemy;
+        enemy.nav.ResetPath();
 
         enemy.ani.SetBool("isRun", true);
 
@@ -22,11 +23,10 @@ public class EnemyRunaway : IEnemyState
 
 
         //새 목표지점 = 플레이어 반대 방향
-        enemy.nav.ResetPath();
         //parent.nav.SetDestination(parent.RunawayPoint.position);
 
         //추적 범위에 없을 때
-        if (Vector3.Distance(enemy.transform.position, enemy.playerPos.position) > enemy.nav.stoppingDistance * 3)
+        if (!enemy.CheckFollow())
         {
             enemy.isDamaged = false;
             enemy.ChangeState(new EnemyWalk());
