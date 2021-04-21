@@ -16,19 +16,19 @@ public class Enemy : MonoBehaviour, ICreature
     
     // Status //
     public bool isDead; //생존 여부
-    public float startingHealth = 100; //시작 체력
+    [HideInInspector] public float startingHealth = 100; //시작 체력
     public float health;//현재 체력
-    public float damage; //데미지
-    public float defense; //방어력
-    public float evasion; //회피율
-    public float accuracy; //명중률
-    public float critical; //크리티컬 확률
+    [HideInInspector] public float damage; //데미지
+    [HideInInspector] public float defense; //방어력
+    [HideInInspector] public float evasion; //회피율
+    [HideInInspector] public float accuracy; //명중률
+    [HideInInspector] public float critical; //크리티컬 확률
 
     // Attack //
-    public float delay = 3f; //공격 딜레이
-    public float lastAttack; //마지막 공격 시점
-    public bool isDamaged = false; //플레이어에게 공격을 받았는지
-    private float attackBoundary; //공격 범위
+    [HideInInspector] public float delay = 3f; //공격 딜레이
+    [HideInInspector] public float lastAttack; //마지막 공격 시점
+    [HideInInspector] public bool isDamaged = false; //플레이어에게 공격을 받았는지
+    [HideInInspector] private float attackBoundary; //공격 범위
 
     // State //
     private IEnemyState currentState;
@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour, ICreature
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
-        playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        playerPos = player.GetComponent<Transform>();
         DestinationPos = GameObject.FindGameObjectWithTag("DestinationPos").GetComponent<Transform>();
         nav = GetComponent<NavMeshAgent>();
         ani = GetComponent<Animator>();
@@ -90,24 +90,6 @@ public class Enemy : MonoBehaviour, ICreature
         }
     }
     
-    //공격 범위에 들어왔는지
-    public bool isAttackArea()
-    {
-        if (attackBoundary <= Vector3.Distance(transform.position, playerPos.position))
-            return true;
-        else
-            return false;
-    }
-
-    //추적 범위에 들어왔는지
-    public bool isFollowArea()
-    {
-        if (attackBoundary * 3 <= Vector3.Distance(transform.position, playerPos.position))
-            return true;
-        else
-            return false;
-    }
-
     //받을 데미지 계산 (플레이어가 적을 공격할 때)
     public float Fight(float _damage, float _critical, float _accuracy)
     {
