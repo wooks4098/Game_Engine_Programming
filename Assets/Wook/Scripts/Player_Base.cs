@@ -35,7 +35,7 @@ public class Player_Base : MonoBehaviour
     }
     private void Awake()
     {
-        Crafting_State = (int)CRAFTING_STATE.solo;
+        Crafting_State = (int)CRAFTING_STATE.hut;
     }
 
     private void OnDrawGizmosSelected()

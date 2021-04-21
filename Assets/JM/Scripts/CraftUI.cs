@@ -18,23 +18,29 @@ public class CraftUI : MonoBehaviour
     
     public GameObject Mix_Item;
 
-    Crafting_Set crafting_set;
-  
-    private Slot[] Slots;
+    [SerializeField]
+    private Crafting_Set crafting_set;
+    [SerializeField]
+    private Slot[] Slots; //인벤토리 슬롯  0,1,2 재료 슬롯 3빈 슬롯
     
     public GameObject Content;
-    public GameObject R;
     [SerializeField]
     private Inventory Inventory;
     public GameObject []Value;
-    
+    public Value_Item[] Value_info;
+    [SerializeField]
+    private Crafting_Item_info crafting_item_info;
+
+    private int Craft_Item_Number; //크래프팅 아이템 번호
     //조합 채크
     bool[] check_craft = { true, true, true };
 
     void Awake()
     {
-        crafting_set = GetComponent<Crafting_Set>();
-        Binding_Crafting_Set();  
+        //crafting_set = GetComponent<Crafting_Set>();
+       
+
+
     }
 
     private void Update()
@@ -52,17 +58,39 @@ public class CraftUI : MonoBehaviour
         }
     }
 
-    void OpenCraftUI()
+
+    //크래프팅
+    public void OnClick_Crafting()
     {
-        player_Craft_State = Player_Base.Crafting_State;
-        CraftUI_Base.SetActive(true);
+        if (check_craft[0] && check_craft[1] && check_craft[2])
+        {
+            //if(Slots[3] == null)
+            {
+                Inventory.AcquireItem(crafting_set.item_Set[player_Craft_State].item[Craft_Item_Number], 1);
+                for(int i = 0; i< crafting_set.item_Set[player_Craft_State].item[Craft_Item_Number].Crafting_Count.Length; i++)
+                {
+                    Slots[i].SetSlotCount(-crafting_set.item_Set[player_Craft_State].item[Craft_Item_Number].Crafting_Count[i]);
+                    Value_info[i].Get_AfterCarfting_Count(Slots[i].Get_Count());
+                }
+            }
+            //else
+            {
+                //인벤토리에 빈 공간이 없습니다.
+            }
+        }
+        else
+            Debug.Log("Nope");
+
+
+
     }
 
-    public void CloseCraftUI()
-    {
-        CraftUI_Base.SetActive(false);
-    }
 
+
+
+    #region 조합식 관련
+
+    //어떤 조합식을 눌렀는지 체크 해서 해당 조합식을 보여줌
     public void OnClick_check()
     {
         //조합 가능 초기화
@@ -102,95 +130,145 @@ public class CraftUI : MonoBehaviour
     }
 
 
-    public void OnClick_Crafting()
+
+
+    //플레이어 크래프팅 상태에 따라 조합식 변경하는 함수
+    void create_MixTable(int _Craft_Item_Number, int _Player_Craft_State/*바운더리 정보*/)
     {
-        if (check_craft[0] && check_craft[1] && check_craft[2])
-            Debug.Log("crafting");
-        else
-            Debug.Log("Nope");
+        Craft_Item_Number = _Craft_Item_Number;
+        crafting_item_info.Get_Image(crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].itemSprite);
+        crafting_item_info.Get_Name(crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].itemName);
+        crafting_item_info.Get_info(crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].itemInfo);
 
 
 
-    }
-
-
-    void create_MixTable(int Num, int Num2/*바운더리 정보*/)
-    {
-        
-
-        //조합재료 레이어 초기화 (활성화)
-        R.transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
-        R.transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(true);
-        R.transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(true);
-
-        /*
-        크래프팅 아이템 클릭
-        인벤토리 슬롯 탐색 -> 해당 쟤료가 있으면 슬롯에 저장 (배열)
-        개수 Get_Count()를 사용해서 변경
-         */
-
-
-        R.transform.GetChild(0).GetComponent<Image>().sprite = crafting_set.item_Set[Num2].item[Num].itemSprite;
-        R.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = crafting_set.item_Set[Num2].item[Num].itemName;
-        R.transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = crafting_set.item_Set[Num2].item[Num].itemInfo;
-
-
-        //조합 재료 필요한 만큼 활성화
-        for (int index = 0; index < crafting_set.item_Set[Num2].item[Num].Crafting_Sprite.Length; index++)
-         {
-            //각 조합재료 이미지 세팅
-            Value[index].GetComponent<Image>().sprite = crafting_set.item_Set[Num2].item[Num].Crafting_Sprite[index];
-
-            for (int index1 = 0; index1 < 8; index1++)
+       
+        string[] Craft_Item_Name;
+        for(int  i = 0; i<3; i++)
+        {
+            Value[i].gameObject.SetActive(false);
+            if (crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Sprite.Length > i)
             {
-                
-                //인벤토리 서치 - 아이템이 있는지
-                 if (Inventory.Etc_slots[index1].item!=null && Inventory.Etc_slots[index1].item.itemName == crafting_set.item_Set[Num2].item[Num].Crafting_ItemName[index])
+                Value[i].gameObject.SetActive(true);
+                //Craft_Item_Name
+                Value_info[i].Get_Item_image(crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Sprite[i]);
+            }
+            else
+            {
+                Value[i].gameObject.SetActive(false);
+            }
+        }
+
+
+        int[] have_Count  = { 0, 0, 0 };
+        int slotCount = 0;
+        for(int i = 0; i<8; i++)
+        {
+            if (Inventory.Etc_slots[i].item == null && Slots[3] == null)
+            {
+                Slots[3] = Inventory.Etc_slots[i];
+            }
+            if(Inventory.Etc_slots[i].item != null)
+            {
+                for(int j = 0; j < crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Count.Length; j++)
                 {
-                    Value[index].GetComponentInChildren<Text>().text =
-                    Inventory.Etc_slots[index1].itemCount + " / " + crafting_set.item_Set[Num2].item[Num].Crafting_Count[index];
-                    //인벤토리내 오브젝트의 갯수가 같거나 많으면
-                    if (Inventory.Etc_slots[index1].itemCount >= crafting_set.item_Set[Num2].item[Num].Crafting_Count[index])
+                    if(crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_ItemName[j] != null
+                        && Inventory.Etc_slots[i].item.itemName == crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_ItemName[j])
                     {
-                        Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 1.0f);
-                        check_craft[index] = true;
-                        break;
-                    }
-                    else            //아이템의 갯수가 적다면
-                    {
-                       
-                        Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
-                        check_craft[index] = false;
-                        break;
+                        Slots[j] = Inventory.Etc_slots[i];
+                        have_Count[j] = Slots[j].Get_Count();
+                        slotCount++;
                     }
                 }
-                else            //아이템이 없다면
-                {
-                    
-                    Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
-                    Value[index].GetComponentInChildren<Text>().text =
-                    "0 / " + crafting_set.item_Set[Num2].item[Num].Crafting_Count[index];
-                    check_craft[index] = false;
-                }
-                if (check_craft[index] == true)
-                { break; }
+
+
+              
             }
 
         }
-        //조합 재료 필요없는부분 비활성화
-        for (int index1 = crafting_set.item_Set[Num2].item[Num].Crafting_Sprite.Length; index1 < 3; index1++)
+        for(int i = 0; i<3; i++)
         {
-            
-            R.transform.GetChild(1).transform.GetChild(index1).gameObject.SetActive(false);
+            check_craft[i] = true;
+            if (Value[i].activeSelf == true)
+            {
+
+                Value_info[i].Get_Count(crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Count[i], have_Count[i]);
+                if (have_Count[i] >= crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Count[i])
+                    check_craft[i] = true;
+                else
+                    check_craft[i] = false;
+
+
+            }
         }
 
 
+
+        ////조합 재료 필요한 만큼 활성화
+        //for (int index = 0; index < crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Sprite.Length; index++)
+        // {
+        //    //각 조합재료 이미지 세팅
+        //    Value[index].GetComponent<Image>().sprite = crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Sprite[index];
+
+        //    for (int index1 = 0; index1 < 8; index1++)
+        //    {
+                
+        //        //인벤토리 서치 - 아이템이 있는지
+        //        if(Inventory.Etc_slots[index1].item ==null)
+        //        {
+
+        //        }
+
+
+
+        //         if (Inventory.Etc_slots[index1].item!=null && Inventory.Etc_slots[index1].item.itemName 
+        //            == crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_ItemName[index])
+        //        {
+        //            Value[index].GetComponentInChildren<Text>().text =
+        //            Inventory.Etc_slots[index1].itemCount + " / " + crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Count[index];
+        //            //인벤토리내 오브젝트의 갯수가 같거나 많으면
+        //            if (Inventory.Etc_slots[index1].itemCount >= crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Count[index])
+        //            {
+        //                Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 1.0f);
+        //                check_craft[index] = true;
+        //                break;
+        //            }
+        //            else            //아이템의 갯수가 적다면
+        //            {
+                       
+        //                Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+        //                check_craft[index] = false;
+        //                break;
+        //            }
+        //        }
+        //        else            //아이템이 없다면
+        //        {
+                    
+        //            Value[index].GetComponentInChildren<Text>().color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+        //            Value[index].GetComponentInChildren<Text>().text =
+        //            "0 / " + crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Count[index];
+        //            check_craft[index] = false;
+        //        }
+        //        if (check_craft[index] == true)
+        //        { break; }
+        //    }
+
+        //}
+        ////조합 재료 필요없는부분 비활성화
+        //for (int index1 = crafting_set.item_Set[_Player_Craft_State].item[_Craft_Item_Number].Crafting_Sprite.Length; index1 < 3; index1++)
+        //{
+            
+        //    R.transform.GetChild(1).transform.GetChild(index1).gameObject.SetActive(false);
+        //}
+
+
     }
+    #endregion
 
-
+    #region 초기설정
     void Binding_Crafting_Set()
     {
-                crafting_Menu_Create(player_Craft_State);
+        crafting_Menu_Create(player_Craft_State);
     }
 
     void crafting_Menu_Create(int num)
@@ -215,5 +293,18 @@ public class CraftUI : MonoBehaviour
             Content.transform.GetChild(0).transform.GetChild(index1).gameObject.SetActive(false);
         }
     }
+    #endregion
 
+    public void OpenCraftUI()
+    {
+        player_Craft_State = Player_Base.Crafting_State;
+        CraftUI_Base.SetActive(true);
+        create_MixTable(0, player_Craft_State);
+        Binding_Crafting_Set();
+    }
+
+    public void CloseCraftUI()
+    {
+        CraftUI_Base.SetActive(false);
+    }
 }

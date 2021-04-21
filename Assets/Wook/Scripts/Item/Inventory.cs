@@ -18,6 +18,7 @@ public class Inventory : MonoBehaviour
     //슬롯
     public Slot[] Etc_slots;
 
+
     private void Awake()
     {
         
@@ -94,7 +95,7 @@ public class Inventory : MonoBehaviour
 
     }
 
-    void CloseInventory()
+    public void CloseInventory()
     {
         Inventory_base.SetActive(false);
 
