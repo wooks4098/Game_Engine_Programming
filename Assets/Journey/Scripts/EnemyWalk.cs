@@ -25,17 +25,17 @@ public class EnemyWalk : IEnemyState
         {
             case "Wolf":
                 //추적 범위에 있을 때
-                if (parentEnemy.isFollowArea())
+                if (parentEnemy.CheckFollow())
                     parentEnemy.ChangeState(new EnemyFollow());
                 break;
             case "Chicken":
                 //플레이어에게 공격 당했고, 추적 범위에 있을 때 
-                if (parentEnemy.isDamaged && parentEnemy.isFollowArea())
+                if (parentEnemy.isDamaged && parentEnemy.CheckFollow())
                     parentEnemy.ChangeState(new EnemyFollow());
                 break;
             case "Sheep":
                 //플레이어에게 공격 당했고, 추적 범위에 있을 때
-                if (parentEnemy.isDamaged && parentEnemy.isFollowArea())
+                if (parentEnemy.isDamaged && parentEnemy.CheckFollow())
                     parentEnemy.ChangeState(new EnemyRunaway());
                 break;
         }

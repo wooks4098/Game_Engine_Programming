@@ -22,11 +22,11 @@ public class EnemyFollow : IEnemyState
         enemy.nav.SetDestination(enemy.playerPos.position);
 
         //공격 범위에 있을 때
-        if (enemy.isAttackArea())
+        if (enemy.inAttackArea)
             enemy.ChangeState(new EnemyAttack());
 
         //공격 범위에 없고, 추적 범위에 없을 때
-        else if (!enemy.isFollowArea()) 
+        else if (!enemy.CheckFollow()) 
         {
             enemy.ChangeState(new EnemyWalk());
             enemy.isDamaged = false;

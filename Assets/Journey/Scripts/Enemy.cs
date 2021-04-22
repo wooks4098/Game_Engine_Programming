@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour, ICreature
     [HideInInspector] public Transform DestinationPos; //목표지점
     [HideInInspector] public NavMeshAgent nav;
     [HideInInspector] public Animator ani;
+    public bool inAttackArea = false;
+    public bool inFollowArea = false;
 
     private EnemySpawner enemySpawner;
     
@@ -33,6 +35,11 @@ public class Enemy : MonoBehaviour, ICreature
     // State //
     private IEnemyState currentState;
 
+    public float maxDistance = 6;
+    public bool hasObstacle; //장애물이 있다면 true, 없다면 false
+    public Vector3 dir;
+    RaycastHit hit;
+
 
     void Awake()
     {
@@ -45,9 +52,9 @@ public class Enemy : MonoBehaviour, ICreature
 
         nav.SetDestination(DestinationPos.position);
         attackBoundary = nav.stoppingDistance;
+        maxDistance = transform.Find("FollowArea").GetComponent<SphereCollider>().radius;
 
         ChangeState(new EnemyWalk());
-        Debug.Log("성공");
     }
 
     // 스테이터스 초기화 //
@@ -66,6 +73,29 @@ public class Enemy : MonoBehaviour, ICreature
     {
         //상태 전이
         currentState.Update();
+
+        //플레이어가 추적 범위에 있을때만 레이를 쏘도록
+        if (inFollowArea)
+        {
+            Debug.Log("1");
+            dir = (player.transform.position - transform.position).normalized; //플레이어로 향하는 정규화 벡터
+
+            if (Physics.Raycast(transform.position, dir, out hit, maxDistance))
+            {
+                Debug.Log("2");
+
+                //레이의 충돌체가 플레이어라면
+                if (hit.transform.tag == "Player")
+                    hasObstacle = false; //장애물이 없다고 판단
+                else
+                    hasObstacle = true; //장애물이 있다고 판단
+            }
+            Debug.Log("3");
+
+            //레이 시각화
+            Debug.DrawRay(transform.position, dir * maxDistance, Color.red);
+        }
+
     }
 
     //상태 전이
@@ -137,5 +167,13 @@ public class Enemy : MonoBehaviour, ICreature
         nav.isStopped = true;
         isDead = true;
         Destroy(gameObject, 5f);
+    }
+
+    public bool CheckFollow()
+    {
+        if (inFollowArea && !hasObstacle)
+            return true;
+        else
+            return false;
     }
 }

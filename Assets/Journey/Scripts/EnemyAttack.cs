@@ -29,7 +29,7 @@ public class EnemyAttack : IEnemyState
         }
 
         //공격 범위에 없고, 추적 범위에 있을 때
-        if (!enemy.isAttackArea() && enemy.isFollowArea())
+        if (!enemy.inAttackArea && enemy.CheckFollow())
             enemy.ChangeState(new EnemyFollow());
 
         //확인용
