@@ -14,11 +14,13 @@ public class Player : Player_Base, ICreature
 
     //필요한 컴포넌트
     private NavMeshAgent agent;
+    //[SerializeField]
     private Animator animator;
     [SerializeField]
     private ItemPiekUp itempickup;
     private void Awake()
     {
+        //animator = GetComponent<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
 
@@ -56,6 +58,8 @@ public class Player : Player_Base, ICreature
     {
         if (Vector3.Distance(transform.position, _hit.point) > 0.2f)
         {
+            animator.SetBool("isWalking", true);
+
             agent.SetDestination(_hit.point);
         }
     }
@@ -71,6 +75,8 @@ public class Player : Player_Base, ICreature
     //이동 초기화
     void ResetMove()
     {
+        animator.SetBool("isWalking", false);
+
         agent.ResetPath();
         agent.velocity = Vector3.zero;
 
