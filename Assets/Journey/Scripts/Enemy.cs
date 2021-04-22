@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour, ICreature
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
+        //EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
         playerPos = player.GetComponent<Transform>();
         DestinationPos = GameObject.FindGameObjectWithTag("DestinationPos").GetComponent<Transform>();
         nav = GetComponent<NavMeshAgent>();
@@ -71,6 +71,8 @@ public class Enemy : MonoBehaviour, ICreature
 
     void Update()
     {
+
+       
         //상태 전이
         currentState.Update();
 
