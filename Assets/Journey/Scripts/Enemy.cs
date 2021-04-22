@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour, ICreature
 {
     [HideInInspector] public Player player;
-    [HideInInspector] public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
+    public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
     [HideInInspector] public Transform playerPos; //실제로 추적할 대상
     [HideInInspector] public Transform DestinationPos; //목표지점
     [HideInInspector] public NavMeshAgent nav;
