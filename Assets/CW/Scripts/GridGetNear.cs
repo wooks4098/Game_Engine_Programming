@@ -17,21 +17,27 @@ public class GridGetNear : MonoBehaviour
         return result;
     }
 
-    public Vector3 GetNearGridPoint2up(Vector3 pos)
+    public Vector3 GetNearGridPoint2up(Vector3 pos,float row, float col)
     {
         float x = Mathf.RoundToInt(pos.x / size);
         float y = Mathf.RoundToInt(pos.y / size);
         float z = Mathf.RoundToInt(pos.z / size);
 
-        if (x - pos.x > 0)
-            x -= size / 2;
-        else
-            x += size / 2;
+        if (col % 2 == 0)
+        {
+            if (x - pos.x > 0)
+                x -= size / 2;
+            else
+                x += size / 2;
 
-        if (z - pos.z > 0)
-            z -= size / 2;
-        else
-            z += size / 2;
+        }
+        if (row % 2 == 0)
+        {
+            if (z - pos.z > 0)
+                z -= size / 2;
+            else
+                z += size / 2;
+        }
 
         Vector3 result = new Vector3(x * size, y * size, z * size);
 

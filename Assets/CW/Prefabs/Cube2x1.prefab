@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7380652207233050550}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Cube2x1
-  m_TagString: Untagged
+  m_TagString: BuildObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 2842723432291369663}
   - component: {fileID: 2314990961330243060}
   - component: {fileID: 2924097062059505822}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: BuildObj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
