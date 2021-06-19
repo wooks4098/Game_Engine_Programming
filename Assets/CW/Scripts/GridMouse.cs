@@ -28,6 +28,7 @@ public class GridMouse : MonoBehaviour
 
         if (Physics.Raycast(ray, out groundHit, 100000, 1 << 16))
         {
+
             realpos = grid.GetNearGridPoint2up(groundHit.point, row, col);
             img.transform.position = realpos;
 
@@ -36,7 +37,10 @@ public class GridMouse : MonoBehaviour
                 if (Physics.Raycast(ray, out buildHit, 100000, 1 << 17))
                     Debug.Log("this is BO");
                 else
+                {
+                    Debug.Log("groundHit.point"+groundHit.point);
                     PlaceNear(groundHit.point);
+                }
             }
         }
     }

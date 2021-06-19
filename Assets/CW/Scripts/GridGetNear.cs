@@ -40,6 +40,7 @@ public class GridGetNear : MonoBehaviour
         }
 
         Vector3 result = new Vector3(x * size, y * size, z * size);
+        Debug.Log("result: " + result);
 
         return result;
     }
@@ -51,8 +52,8 @@ public class GridGetNear : MonoBehaviour
         {
             for (float z = 0; z < 40; z += size)
             {
-                Vector3 point = GetNearGridPoint(new Vector3(x, 0f, z));
-                Gizmos.DrawSphere(point, 0.1f);
+                //Vector3 point = GetNearGridPoint(new Vector3(x, 0f, z));
+                //Gizmos.DrawSphere(point, 0.1f);
             }
         }
     }
