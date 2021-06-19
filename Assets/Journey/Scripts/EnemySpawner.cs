@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     public int enemyNum;
+    public float spawnRadius = 100f;
 
     private void Start()
     {
@@ -18,13 +19,13 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn()
     {
         //랜덤 지점 받아오기
-        Vector3 spawnPoint = GetRandomPoint(transform.position, 15f); //스포너 위치를 기준으로 거리 15 내의 지점
+        Vector3 spawnPoint = GetRandomPoint(transform.position, spawnRadius); //스포너 위치를 기준으로 거리 15 내의 지점
 
         //프리팹 인스턴스화
         GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPoint, Quaternion.identity);
         
         //EnemySpawner 오브젝트의 자식으로 설정
-        enemy.transform.parent = GameObject.FindGameObjectWithTag("EnemySpawner").transform;
+        //enemy.transform.parent = GameObject.FindGameObjectWithTag("EnemySpawner").transform;
     }
 
     //랜덤 지점 찾기
@@ -43,3 +44,6 @@ public class EnemySpawner : MonoBehaviour
         return hit.position;
     }
 }
+
+
+

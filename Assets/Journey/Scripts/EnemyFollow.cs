@@ -2,44 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//이 상태는 늑대와 사슴만 사용
 public class EnemyFollow : IEnemyState
 {
-    //이 상태는 늑대와 닭만 사용
     private Enemy enemy;
 
     public void Enter(Enemy enemy)
     {
         this.enemy = enemy;
+        enemy.state = Enemy.STATE.FOLLOW;
 
         enemy.nav.isStopped = false;
         enemy.ani.SetBool("isRun", true);
-
-        //확인용
-        Debug.Log(enemy.name + "의 Follow Enter");
+        enemy.target = enemy.player.transform.position;
     }
     public void Update()
     {
-        enemy.nav.SetDestination(enemy.playerPos.position);
-
         //공격 범위에 있을 때
-        if (enemy.inAttackArea)
+        if (enemy.distance < enemy.attackBoundary)
             enemy.ChangeState(new EnemyAttack());
 
         //공격 범위에 없고, 추적 범위에 없을 때
-        else if (!enemy.CheckFollow()) 
+        else if (enemy.distance > enemy.followBoundary) 
         {
             enemy.ChangeState(new EnemyWalk());
             enemy.isDamaged = false;
         }
-
-            //확인용
-            Debug.Log(enemy.name + "의 Follow Update");
     }
     public void Exit()
     {
         enemy.ani.SetBool("isRun", false);
-
-        //확인용
-        Debug.Log(enemy.name + "의 Follow Exit");
     }
 }

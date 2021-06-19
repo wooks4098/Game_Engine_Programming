@@ -5,18 +5,19 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, ICreature
 {
+    public enum STATE { WANDER, FOLLOW, RUNAWAY, ATTACK }
+    public enum MONSTER { WOLF, DEER, RABIT }
+    
+    [Header("Kind")]
+    public STATE state;
+    public MONSTER monster;
+
     [HideInInspector] public Player player;
-    public Transform EnemyLookPoint; //적이 바라볼 플레이어의 지점 (회전 오류 때문에)
-    [HideInInspector] public Transform playerPos; //실제로 추적할 대상
-    [HideInInspector] public Transform DestinationPos; //목표지점
+    [HideInInspector] public Vector3 target;
     [HideInInspector] public NavMeshAgent nav;
     [HideInInspector] public Animator ani;
-    public bool inAttackArea = false;
-    public bool inFollowArea = false;
-
-    private EnemySpawner enemySpawner;
     
-    // Status //
+    [Header("Status")]
     public bool isDead; //생존 여부
     [HideInInspector] public float startingHealth = 100; //시작 체력
     public float health;//현재 체력
@@ -26,40 +27,44 @@ public class Enemy : MonoBehaviour, ICreature
     [HideInInspector] public float accuracy; //명중률
     [HideInInspector] public float critical; //크리티컬 확률
 
-    // Attack //
+
+    [Header("Attack")]
+    public float attackBoundary = 2.5f; //공격 범위
+    public float followBoundary = 5; //추적 범위
+    public float distance; //플레이어와 거리
     [HideInInspector] public float delay = 3f; //공격 딜레이
     [HideInInspector] public float lastAttack; //마지막 공격 시점
     [HideInInspector] public bool isDamaged = false; //플레이어에게 공격을 받았는지
-    [HideInInspector] private float attackBoundary; //공격 범위
+    
 
-    // State //
+    [Header("State")]
     private IEnemyState currentState;
 
-    public float maxDistance = 6;
-    public bool hasObstacle; //장애물이 있다면 true, 없다면 false
-    public Vector3 dir;
-    RaycastHit hit;
+    [Header("Wander")]
+    public float wanderRadius = 5f; //제한하는 원의 지름
+    public float wanderDistance = 8f; //원이 투사되는 거리
+    public float wanderJitter = 1f; //무작위 변위의 최대 크기
+    public Vector3 wanderTarget;
+
+    [Header("Raycast")]
+    [HideInInspector] public bool hasObstacle; //장애물이 있다면 true, 없다면 false
+    [HideInInspector] public Vector3 dir;
+    [HideInInspector] public RaycastHit hit;
 
 
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        //EnemyLookPoint = GameObject.FindGameObjectWithTag("EnemyLookPoint").GetComponent<Transform>();
-        playerPos = player.GetComponent<Transform>();
-        DestinationPos = GameObject.FindGameObjectWithTag("DestinationPos").GetComponent<Transform>();
         nav = GetComponent<NavMeshAgent>();
         ani = GetComponent<Animator>();
 
-        nav.SetDestination(DestinationPos.position);
-        attackBoundary = nav.stoppingDistance;
-        maxDistance = transform.Find("FollowArea").GetComponent<SphereCollider>().radius;
-
+        target = wanderTarget;
         ChangeState(new EnemyWalk());
     }
 
-    // 스테이터스 초기화 //
     public virtual void OnEnable()
     {
+        //스테이터스 초기화
         isDead = false;
         health = startingHealth;
         damage = 50;
@@ -71,31 +76,29 @@ public class Enemy : MonoBehaviour, ICreature
 
     void Update()
     {
-
-       
         //상태 전이
         currentState.Update();
 
+        nav.SetDestination(target);
+
+        //플레이어와 거리 계산
+        distance = Vector3.Distance(player.transform.position, transform.position);
+
         //플레이어가 추적 범위에 있을때만 레이를 쏘도록
-        if (inFollowArea)
+        if (distance < followBoundary)
         {
-            Debug.Log("1");
             dir = (player.transform.position - transform.position).normalized; //플레이어로 향하는 정규화 벡터
 
-            if (Physics.Raycast(transform.position, dir, out hit, maxDistance))
+            if (Physics.Raycast(transform.position, dir, out hit, followBoundary))
             {
-                Debug.Log("2");
-
                 //레이의 충돌체가 플레이어라면
                 if (hit.transform.tag == "Player")
                     hasObstacle = false; //장애물이 없다고 판단
                 else
                     hasObstacle = true; //장애물이 있다고 판단
             }
-            Debug.Log("3");
-
             //레이 시각화
-            Debug.DrawRay(transform.position, dir * maxDistance, Color.red);
+            Debug.DrawRay(transform.position, dir * followBoundary, Color.red);
         }
 
     }
@@ -133,18 +136,15 @@ public class Enemy : MonoBehaviour, ICreature
             if (rand < _critical)
             {
                 _damage = _damage * 1.2f - defense;
-                Debug.Log("적이 플레이어를 공격 - 1");
             }
             else
             {
                 _damage = _damage - defense;
-                Debug.Log("적이 플레이어를 공격 - 2");
             }
         }
         else
         {
             _damage = 0;
-            Debug.Log("적이 플레이어를 공격 - 3");
         }
 
         return _damage;
@@ -156,13 +156,11 @@ public class Enemy : MonoBehaviour, ICreature
         health -= Fight(_damage, _critical, _accuracy);
         isDamaged = true;
 
-        Debug.Log("enemy 피격");
-
         if (health <= 0)
             Die();
     }
     
-    //사망 처리 //state로 수정
+    //사망 처리
     public void Die()
     {
         ani.SetTrigger("Die");
@@ -171,11 +169,20 @@ public class Enemy : MonoBehaviour, ICreature
         Destroy(gameObject, 5f);
     }
 
-    public bool CheckFollow()
+    void OnDrawGizmos()
     {
-        if (inFollowArea && !hasObstacle)
-            return true;
-        else
-            return false;
+        //공격 범위
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackBoundary);
+
+        //추적 범위
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, followBoundary);
+
+        //배회 지점
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position + transform.TransformDirection(Vector3.forward * wanderDistance), wanderRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position + transform.TransformDirection(Vector3.forward * wanderDistance) + wanderTarget, wanderRadius / 5);
     }
 }
