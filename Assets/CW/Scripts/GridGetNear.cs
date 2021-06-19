@@ -52,7 +52,7 @@ public class GridGetNear : MonoBehaviour
             for (float z = 0; z < 40; z += size)
             {
                 Vector3 point = GetNearGridPoint(new Vector3(x, 0f, z));
-                Gizmos.DrawSphere(point, 0.1f);
+                //Gizmos.DrawSphere(point, 0.1f);
             }
         }
     }
