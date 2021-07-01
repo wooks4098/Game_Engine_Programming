@@ -158,7 +158,7 @@ public class Player : Player_Base, ICreature
             }
             ResetMove();
             //StartCoroutine("LookAt_Target");
-            Debug.Log("플레이어 공격");
+            Debug.Log("플레이어가 적을 공격했다.");
             hit.transform.GetComponent<Enemy>().OnDamage(Attack_Damage,Critical,Accuracy);
            // hit.transform.GetComponent<Enemy>().Fight();
             StartCoroutine("Change_CanAttack");
